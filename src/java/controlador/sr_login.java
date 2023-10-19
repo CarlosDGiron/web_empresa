@@ -5,18 +5,21 @@
 package controlador;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+//import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.Empleado;
+import javax.servlet.http.HttpSession;
+import modelo.Usuario;
 
 /**
  *
  * @author cana0
  */
-public class sr_empleado extends HttpServlet {
+@WebServlet(name = "sr_login", urlPatterns = {"/sr_login"})
+public class sr_login extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,39 +32,37 @@ public class sr_empleado extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+            //response.setContentType("text/html;charset=UTF-8");
+            
+        //try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
+            
+            /*out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet sr_empleado</title>");            
             out.println("</head>");
-            out.println("<body>");
-            Empleado e=new Empleado(request.getParameter("txt_codigo"),Integer.parseInt(request.getParameter("drop_puesto")),Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),request.getParameter("txt_nacimiento"));
-            if("Agregar".equals(request.getParameter("btn_agregar"))){
-                if (e.agregar()==1){
-                out.println("<h1>Ingreso exitoso.</h1>");
-                }else{
-                out.println("<h1>No se pudo ingresar el registro.</h1>");
-                }
-            }else if("Modificar".equals(request.getParameter("btn_modificar"))){
-                if (e.modificar()==1){
-                out.println("<h1>Registro modificado.</h1>");
-                }else{
-                out.println("<h1>No se pudo modificar el registro.</h1>");
-                }                
-            }else if("Eliminar".equals(request.getParameter("btn_eliminar"))){
-                if (e.eliminar()==1){
-                out.println("<h1>Registro eliminado.</h1>");
-                }else{
-                out.println("<h1>No se pudo eliminar el registro.</h1>");
-                }               
-            }            
-            out.println("<a href ='index.jsp'>Regresar</a>");
+            out.println("<body>");*/
+            HttpSession hsesion=request.getSession();
+            
+            Usuario u=new Usuario();
+            
+            String usuario=request.getParameter("txt_usuario");
+            String pass=request.getParameter("txt_password");
+            if(u.isValid(usuario, pass)){
+                //response.sendRedirect("index.jsp");}
+                u.setUsuario(usuario);
+                hsesion.setAttribute("nombre",u.getNombre( usuario));
+                u.cargarPermisos();
+                u.cargarIdEmpleado();
+                hsesion.setAttribute("usuario", u);
+            }else{
+                response.sendRedirect("index.jsp?login=error");
+            }
+            /*out.println("<a href ='index.jsp'>Regresar</a>");
             out.println("</body>");
-            out.println("</html>");
-        }
+            out.println("</html>");*/
+        //}
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

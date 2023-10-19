@@ -122,7 +122,7 @@ public class Empleado extends Persona {
             ResultSet res;
             String encabezado []={"ID","Codigo de Empleado","Nombres","Apellidos","Dirección","Teléfono","Fecha de Nacimiento", "Puesto","ID de Puesto"};
             model.setColumnIdentifiers(encabezado);
-            res=c.conexionDB.createStatement().executeQuery("Select * from empleados;");
+            res=c.conexionDB.createStatement().executeQuery("Select * from db_empresa.empleados;");
             String datos[]=new String[9];
             while(res.next()){
                 datos[0]=res.getString("id_empleado");

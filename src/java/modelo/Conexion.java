@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class Conexion {
     public Connection conexionDB;
     private final String puerto="3306";
-    private final String db="db_empresa_old";
+    private final String db="db_empresa";
     //jdbc:mysql://localhost:3306/?user=usr_empresa
     //jdbc:mysql://localhost:%s/%s?serverTimezone=UTC
     private final String urlConexion=String.format("jdbc:mysql://localhost:%s/%s?serverTimezone=UTC", puerto,db);
@@ -26,17 +26,8 @@ public class Conexion {
         try{            
             Class.forName(jdbc);
             conexionDB=DriverManager.getConnection(urlConexion, usuario, pass);
-                        System.out.println("Conexion exitosa.");
 
         }catch(ClassNotFoundException | SQLException ex){
-            System.out.println("Eror:"+ex.getMessage());
-        }
-    }
-    public void ejecutar_script(String script){
-        try{
-            conexionDB.prepareStatement(script);
-            conexionDB.beginRequest();
-        }catch(SQLException ex){
             System.out.println("Eror:"+ex.getMessage());
         }
     }
@@ -44,7 +35,6 @@ public class Conexion {
     public void cerrar_conexion(){
         try{
             conexionDB.close();
-            System.out.println("Conexion cerrada.");
         }catch(SQLException ex){
             System.out.println("Eror:"+ex.getMessage());
         }

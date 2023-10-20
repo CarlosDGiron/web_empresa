@@ -49,13 +49,15 @@ public class sr_login extends HttpServlet {
             
             String usuario=request.getParameter("txt_usuario");
             String pass=request.getParameter("txt_password");
-            if(u.isValid(usuario, pass)){
+            if(u.esValido(usuario, pass)){
                 //response.sendRedirect("index.jsp");}
                 u.setUsuario(usuario);
                 hsesion.setAttribute("nombre",u.getNombre( usuario));
-                u.cargarPermisos();
-                u.cargarIdEmpleado();
-                hsesion.setAttribute("usuario", u);
+                u.cargarIds();
+                hsesion.setAttribute("idUsuario", u.getIdUsuario());
+                hsesion.setAttribute("usuario", u.getUsuario());
+                hsesion.setAttribute("idEmpleado", u.getIdEmpleado());
+                response.sendRedirect("Principal.jsp");
             }else{
                 response.sendRedirect("index.jsp?login=error");
             }

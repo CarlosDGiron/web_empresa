@@ -14,17 +14,17 @@ import java.sql.SQLException;
  */
 public class Usuario {
     private String usuario;
-    private int idEmpleado;
-    private int[] idPermiso;
+    private int idUsuario, idEmpleado;
     private Conexion c;
 
     public Usuario() {
+        idEmpleado=0;
     }
 
-    public Usuario(String usuario, int idEmpleado, int[] idPermiso) {
+    public Usuario(String usuario, int idUsuario, int idEmpleado) {
         this.usuario = usuario;
+        this.idUsuario=idUsuario;
         this.idEmpleado = idEmpleado;
-        this.idPermiso = idPermiso;
     }
 
     public String getUsuario() {
@@ -42,15 +42,16 @@ public class Usuario {
     public void setIdEmpleado(int idEmpleado) {
         this.idEmpleado = idEmpleado;
     }
-
-    public int[] getIdPermiso() {
-        return idPermiso;
+   
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setIdPermiso(int[] idPermiso) {
-        this.idPermiso = idPermiso;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
-    public boolean isValid(String user, String pass){
+    
+    public boolean esValido(String user, String pass){
         try{
             c= new Conexion();
             c.abrir_conexion();
@@ -68,12 +69,12 @@ public class Usuario {
         }
     }
     public String getNombre(String user){
-        if(idValido(user)){
+        if(esEmpleado(user)){
     try{
         c= new Conexion();
         c.abrir_conexion();
         ResultSet res;
-        String query="Select CONCAT(e.nombres,' ',e.apellidos) as nombre from db_empresa.empleados as e where e.idEmpleado = (SELECT idEmpleado from db_empresa.usuarios_web where db_empresa.usuarios_web.usuario='"+user+"´);";
+        String query="Select CONCAT(e.nombres,' ',e.apellidos) as nombre from db_empresa.empleados as e where e.idEmpleado = (SELECT idEmpleado from db_empresa.usuarios_web where db_empresa.usuarios_web.usuario='"+user+"');";
         res=c.conexionDB.createStatement().executeQuery(query);
         res.next();
         return res.getString("nombre");
@@ -86,7 +87,8 @@ public class Usuario {
         }
         }else return usuario;
     }
-    public boolean idValido(String user){
+    
+    public boolean esEmpleado (String user){
         try{
         c= new Conexion();
         c.abrir_conexion();
@@ -102,10 +104,39 @@ public class Usuario {
             c.cerrar_conexion();
         }        
     }
-    public void cargarPermisos(){
-        
+    public void cargarIds(){
+        try{
+        c= new Conexion();
+        c.abrir_conexion();
+        ResultSet res;
+        String query="SELECT idUsuario, idEmpleado from db_empresa.usuarios_web where db_empresa.usuarios_web.usuario='"+usuario+"';";
+        res=c.conexionDB.createStatement().executeQuery(query);
+        res.next();
+        idEmpleado= res.getInt("idEmpleado");
+        idUsuario= res.getInt("idUsuario");
+        }catch(SQLException ex){
+        System.out.println(ex.getMessage());
+        }
+        finally{
+            c.cerrar_conexion();
+        }
     }
-    public void cargarIdEmpleado(){
-        
+    
+    public boolean tienePermisoId(int idUsuario,int idPermiso){
+        //vaslidar en DB si el usuario tiene permiso para un id de pagina
+        try{
+            c= new Conexion();
+            c.abrir_conexion();
+            ResultSet res;
+            String query="SELECT idPermiso FROM db_empresa.usuarios_permisos WHERE idUsuario="+idUsuario+" AND idPermiso="+idPermiso+";";
+            res=c.conexionDB.createStatement().executeQuery(query);
+            return res.next();
+        }catch(SQLException ex){
+        System.out.println(ex.getMessage());
+        return false;
+        }
+        finally{
+            c.cerrar_conexion();
+        }
     }
 }

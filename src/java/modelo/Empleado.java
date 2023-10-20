@@ -51,7 +51,7 @@ public class Empleado extends Persona {
             PreparedStatement parametro;
             c=new Conexion();
             c.abrir_conexion();
-            String query="INSERT INTO empleados(codigo,nombres,apellidos,direccion,telefono,fecha_nacimiento,id_puesto) VALUES(?,?,?,?,?,?,?);";
+            String query="INSERT INTO db_empresa.empleados(codigo,nombres,apellidos,direccion,telefono,fecha_nacimiento,id_puesto) VALUES(?,?,?,?,?,?,?);";
             parametro=(PreparedStatement) c.conexionDB.prepareStatement(query);
             parametro.setString(1,getCodigo_empleado());
             parametro.setString(2,getNombres());
@@ -75,7 +75,7 @@ public class Empleado extends Persona {
             c= new Conexion();
             c.abrir_conexion();
             PreparedStatement parametro;
-            String query="UPDATE empleados SET codigo=?, nombres=?, apellidos=?, direccion=?, telefono=?, fecha_nacimiento=?, id_puesto=? where id_empleado=?;";
+            String query="UPDATE db_empresa.empleados SET codigo=?, nombres=?, apellidos=?, direccion=?, telefono=?, fecha_nacimiento=?, id_puesto=? where id_empleado=?;";
             parametro=(PreparedStatement) c.conexionDB.prepareStatement(query);
             parametro.setString(1,getCodigo_empleado());
             parametro.setString(2,getNombres());
@@ -100,7 +100,7 @@ public class Empleado extends Persona {
             c=new Conexion();
             c.abrir_conexion();
             PreparedStatement parametro;
-            String query="DELETE FROM empleados WHERE id_empleado=?;";
+            String query="DELETE FROM db_empresa.empleados WHERE id_empleado=?;";
             parametro=(PreparedStatement) c.conexionDB.prepareStatement(query);
             parametro.setInt(1,getId());
             int ejecutar = parametro.executeUpdate();

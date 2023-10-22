@@ -10,6 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;  
+import java.util.Date;  
 import modelo.Empleado;
 
 /**
@@ -38,7 +40,11 @@ public class sr_empleado extends HttpServlet {
             out.println("<title>Servlet sr_empleado</title>");            
             out.println("</head>");
             out.println("<body>");
-            Empleado e=new Empleado(request.getParameter("txt_codigo"),Integer.parseInt(request.getParameter("drop_puesto")),Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),request.getParameter("txt_nacimiento"));
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
+            Date date = new Date();  
+            System.out.println(formatter.format(date));  
+            //Empleado(int id, String nombres, String apellidos, String direccion, String telefono, String dpi, boolean genero, String fecha_nacimiento, String fechaingreso,int puesto,String fecha_inicio_labores)
+            Empleado e = new Empleado(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),request.getParameter("txt_dpi"),request.getParameter("drop_genero").equals("M"),request.getParameter("txt_nacimiento"),Integer.parseInt(request.getParameter("drop_puesto")),request.getParameter("txt_finicio"),formatter.format(date));
             if("Agregar".equals(request.getParameter("btn_agregar"))){
                 if (e.agregar()==1){
                 out.println("<h1>Ingreso exitoso.</h1>");

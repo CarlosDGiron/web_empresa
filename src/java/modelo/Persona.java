@@ -10,18 +10,19 @@ import javax.swing.table.DefaultTableModel;
  */ 
 abstract class Persona {
     private int id;
-    private String nombres, apellidos, direccion, telefono, fecha_nacimiento;
+    private boolean genero;
+    private String nombres, apellidos, telefono, fechaingreso;
 
     public Persona() {
     }
 
-    public Persona(int id, String nombres, String apellidos, String direccion, String telefono, String fecha_nacimiento) {
+    public Persona(int id,boolean genero, String nombres, String apellidos,  String telefono, String fechaingreso) {
         this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
-        this.direccion = direccion;
         this.telefono = telefono;
-        this.fecha_nacimiento = fecha_nacimiento;
+        this.genero=genero;
+        this.fechaingreso = fechaingreso;
     }
 
     public int getId() {
@@ -31,9 +32,33 @@ abstract class Persona {
     public void setId(int id) {
         this.id = id;
     }
+    
+    public boolean getGenero() {
+        return genero;
+    }
+
+    public void setGenero(boolean genero) {
+        this.genero = genero;
+    }
 
     public String getNombres() {
         return nombres;
+    }
+    
+    public String getStrGenero(String gender){
+        if(gender.equalsIgnoreCase("1")){
+            return "M";
+        }else{
+            return "F";
+        }
+    }
+    
+    public boolean getBoolGenero(String gender){
+        if(gender.equalsIgnoreCase("F")){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     public void setNombres(String nombres) {
@@ -48,14 +73,6 @@ abstract class Persona {
         this.apellidos = apellidos;
     }
 
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
     public String getTelefono() {
         return telefono;
     }
@@ -64,12 +81,12 @@ abstract class Persona {
         this.telefono = telefono;
     }
 
-    public String getFecha_nacimiento() {
-        return fecha_nacimiento;
+    public String getFechaingreso() {
+        return fechaingreso;
     }
 
-    public void setFecha_nacimiento(String fecha_nacimiento) {
-        this.fecha_nacimiento = fecha_nacimiento;
+    public void setFechaingreso(String fechaingreso) {
+        this.fechaingreso = fechaingreso;
     }
     
     public int agregar(){

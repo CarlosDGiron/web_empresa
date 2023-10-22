@@ -13,7 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Empleados</title>
-        <link rel="styleshet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <% 
             response.setHeader("Cache-Control","no-cache, no-store, must-revalidate");
             response.setHeader("Pragma","no-cache");
@@ -27,9 +27,6 @@
                 <label for="lbl_id" >ID:</label>
                 <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
                 
-                <label for="lbl_codigo_empleado" >Codigo:</label>
-                <input type="text" name="txt_codigo" id="txt_codigo" class="form-control" placeholder="Ejemplo: E001" required>
-                
                 <label for="lbl_nombres" >Nombres:</label>
                 <input type="text" name="txt_nombres" id="txt_nombres" class="form-control" placeholder="Ejemplo: Nombre1 Nombre2..." required>  
                 
@@ -41,6 +38,15 @@
                 
                 <label for="lbl_telefono" >Telefono:</label>
                 <input type="number" name="txt_telefono" id="txt_telefono" class="form-control" placeholder="Ejemplo: 12345678" required>
+                
+                <label for="lbl_dpi" >DPI:</label>
+                <input type="number" name="txt_dpi" id="txt_dpi" class="form-control" placeholder="Ejemplo: 12345678" required>
+                
+                <label for="lbl_genero" >Genero:</label>
+                <select name="drop_genero" id="drop_genero" class="form-control">
+                    <option value="F">F</option>
+                    <option value="M">M</option>
+                </select>
                 
                 <label for="lbl_nacimiento" >Fecha de Nacimiento:</label>
                 <input type="date" name="txt_nacimiento" id="txt_nacimiento" class="form-control" required>
@@ -55,6 +61,10 @@
                         }
                     %>  
                 </select>
+                
+                <label for="lbl_finicio" >Fecha de inicio de labores:</label>
+                <input type="date" name="txt_finicio" id="txt_finicio" class="form-control" required>
+                
                 <br>
                 <button name="btn_agregar" id="btn_agregar" value="Agregar" class="btn btn-primary">Agregar</button>
                 <button name="btn_modificar" id="btn_modificar" value="Modificar" class="btn btn-primary">Modificar</button>
@@ -63,13 +73,16 @@
             </form>
                 <table class="table table-striped">
                     <thead>
-                    <th>Codigo</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Direccion</th>
                     <th>Telefono</th>
+                    <th>DPI</th>
+                    <th>Genero</th>
                     <th>Fecha de Nacimiento</th>
                     <th>Puesto</th>
+                    <th>Fecha de inicio de labores</th>
+                    <th>Fecha de ingreso</th>
                     </thead>
                     <tbody id="tbl_empleados">
                     <%
@@ -77,14 +90,17 @@
                         DefaultTableModel model= new DefaultTableModel();
                         model=e.mostrar();
                         for(int t=0;t<model.getRowCount();t++){
-                            out.println("<tr data-id=" + model.getValueAt(t,0) + " data-id_p=" + model.getValueAt(t,8) + ">");
+                            out.println("<tr data-id=" + model.getValueAt(t,0) + " data-id_p=" + model.getValueAt(t,11) + ">");
                             out.println("<td>"+model.getValueAt(t,1)+"</td>");
                             out.println("<td>"+model.getValueAt(t,2)+"</td>");
                             out.println("<td>"+model.getValueAt(t,3)+"</td>");
                             out.println("<td>"+model.getValueAt(t,4)+"</td>");
                             out.println("<td>"+model.getValueAt(t,5)+"</td>");
                             out.println("<td>"+model.getValueAt(t,6)+"</td>");
-                            out.println("<td>"+model.getValueAt(t,7)+"</td>");
+                            out.println("<td>"+model.getValueAt(t,7)+"</td>");                            
+                            out.println("<td>"+model.getValueAt(t,8)+"</td>");
+                            out.println("<td>"+model.getValueAt(t,9)+"</td>");                            
+                            out.println("<td>"+model.getValueAt(t,10)+"</td>");
                             out.println("</tr>");
                         }
                     %>                
@@ -96,32 +112,39 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
         <script type="text/javascript">
             $('#tbl_empleados').on('click','tr td',function(evt){
-                var target, id, id_p, codigo, nombres, apellidos, direccion, telefono, nacimiento;
+                var target, id, id_p, nombres, apellidos, direccion, telefono, dpi,genero, fnacimiento, finicio;
                 target = $(event.target);
+                
                 id=target.parent().data('id');
-                console.log(id);
+                
                 id_p=target.parent().data('id_p');
-                console.log(id_p);
-                codigo=target.parent("tr").find("td").eq(0).html();
-                console.log(codigo);
-                nombres=target.parent("tr").find("td").eq(1).html();
-                console.log(nombres);
-                apellidos=target.parent("tr").find("td").eq(2).html();
-                console.log(apellidos);
-                direccion=target.parent("tr").find("td").eq(3).html();
-                console.log(direccion);
-                telefono=target.parent("tr").find("td").eq(4).html();
-                console.log(telefono);
-                nacimiento=target.parent("tr").find("td").eq(5).html();
-                console.log(nacimiento);
+                
+                nombres=target.parent("tr").find("td").eq(0).html();
+                
+                apellidos=target.parent("tr").find("td").eq(1).html();
+                
+                direccion=target.parent("tr").find("td").eq(2).html();
+                
+                telefono=target.parent("tr").find("td").eq(3).html();
+                
+                dpi=target.parent("tr").find("td").eq(4).html();
+                
+                genero=target.parent("tr").find("td").eq(5).html();
+                
+                fnacimiento=target.parent("tr").find("td").eq(6).html();
+                
+                finicio=target.parent("tr").find("td").eq(8).html();
+                
                 $("#txt_id").val(id);
-                $("#txt_codigo").val(codigo);
+                $("#txt_dpi").val(dpi);
                 $("#txt_nombres").val(nombres);
                 $("#txt_apellidos").val(apellidos);
                 $("#txt_direccion").val(direccion);
                 $("#txt_telefono").val(telefono);
-                $("#txt_nacimiento").val(nacimiento);
+                $("#txt_nacimiento").val(fnacimiento);
+                $("#txt_finicio").val(finicio);
                 $("#drop_puesto").val(id_p);                            
+                $("#drop_genero").val(genero);      
             });
         </script>  
     </body>

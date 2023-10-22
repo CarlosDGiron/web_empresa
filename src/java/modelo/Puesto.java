@@ -47,7 +47,7 @@ public class Puesto {
         c=new Conexion();
         c.abrir_conexion();
         try{
-            String query="select id_puesto as id,puesto db_empresa.from puestos;";
+            String query="select idPuesto as id, puesto from db_empresa.puestos;";
             ResultSet consulta=c.conexionDB.createStatement().executeQuery(query);
             while(consulta.next()){
                 drop.put(consulta.getString("id"), consulta.getString("puesto"));
@@ -64,9 +64,9 @@ public class Puesto {
          c.abrir_conexion();
         try{
             ResultSet res;
-            res=c.conexionDB.createStatement().executeQuery("Select id_puesto from db_empresa.puestos where puesto =\""+des+"\";");
+            res=c.conexionDB.createStatement().executeQuery("Select idPuesto from db_empresa.puestos where puesto =\""+des+"\";");
             res.next();
-            x=res.getString("id_puesto");
+            x=res.getString("idPuesto");
         }catch(SQLException ex){
             System.out.println("Eror Id:"+ex.getMessage());
         }
@@ -80,7 +80,7 @@ public class Puesto {
         c.abrir_conexion();
         try{
             ResultSet res;
-            res=c.conexionDB.createStatement().executeQuery("Select puesto from db_empresa.puestos where id_puesto ="+id+";");
+            res=c.conexionDB.createStatement().executeQuery("Select puesto from db_empresa.puestos where idPuesto ="+id+";");
             res.next();
             x=res.getString("puesto");
         }catch(SQLException ex){

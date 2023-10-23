@@ -119,23 +119,19 @@ public class Cliente extends Persona{
         try{
             Puesto p = new Puesto();
             ResultSet res;
-            String encabezado []={"ID Empleado","Nombres","Apellidos","Dirección","Teléfono","DPI","Genero","Fecha de nacimiento","Puesto","Fecha de inicio de labores","Fecha de ingreso","ID Puesto"};
+            String encabezado []={"ID Cliente","Nombres","Apellidos","NIT","Genero","Telefono","Correo electrónico","Fecha de ingreso"};
             model.setColumnIdentifiers(encabezado);
-            res=c.conexionDB.createStatement().executeQuery("Select * from db_empresa.empleados;");
-            String datos[]=new String[12];
+            res=c.conexionDB.createStatement().executeQuery("Select * from db_empresa.clientes;");
+            String datos[]=new String[8];
             while(res.next()){
-                datos[0]=res.getString("idEmpleado");
+                datos[0]=res.getString("idCliente");
                 datos[1]=res.getString("nombres");
                 datos[2]=res.getString("apellidos");
-                datos[3]=res.getString("direccion");
-                datos[4]=res.getString("telefono");
-                datos[5]=res.getString("DPI");
-                datos[6]=getStrGenero(res.getString("genero"));                
-                datos[7]=res.getString("fecha_nacimiento");
-                datos[11]=res.getString("idPuesto");
-                datos[8]=p.getDes(datos[11]);
-                datos[9]=res.getString("fecha_inicio_labores");
-                datos[10]=res.getString("fechaingreso");
+                datos[3]=res.getString("NIT");
+                datos[4]=getStrGenero(res.getString("genero"));   
+                datos[5]=res.getString("telefono");             
+                datos[6]=res.getString("correo_electronico");
+                datos[7]=res.getString("fechaingreso");
                 model.addRow(datos);             
             }
         }catch(SQLException ex){

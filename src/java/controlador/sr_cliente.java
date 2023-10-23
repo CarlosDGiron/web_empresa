@@ -12,7 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.Empleado;
+import modelo.Cliente;
 import modelo.Usuario;
 
 /**
@@ -51,8 +51,8 @@ public class sr_cliente extends HttpServlet {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
                     Date date = new Date();  
                     System.out.println(formatter.format(date));  
-                    //Empleado(int id, String nombres, String apellidos, String direccion, String telefono, String dpi, boolean genero, String fecha_nacimiento, String fechaingreso,int puesto,String fecha_inicio_labores)
-                    Empleado e = new Empleado(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),request.getParameter("txt_dpi"),request.getParameter("drop_genero").equals("M"),request.getParameter("txt_nacimiento"),Integer.parseInt(request.getParameter("drop_puesto")),request.getParameter("txt_finicio"),formatter.format(date));
+                    //Cliente(int id, String nombres, String apellidos,  String nit, boolean genero, String telefono, String correo_electronico, String fechaingreso)
+                    Cliente e = new Cliente(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_nit"),request.getParameter("drop_genero").equals("M"),request.getParameter("txt_telefono"),request.getParameter("txt_correo_electronico"),formatter.format(date));
                     if("Agregar".equals(request.getParameter("btn_agregar"))){
                         if (e.agregar()==1){
                         out.println("<h1>Ingreso exitoso.</h1>");
@@ -72,7 +72,7 @@ public class sr_cliente extends HttpServlet {
                         out.println("<h1>No se pudo eliminar el registro.</h1>");
                         }               
                     }            
-                    out.println("<a href ='empleados.jsp'>Regresar</a>");
+                    out.println("<a href ='clientes.jsp'>Regresar</a>");
                     out.println("</body>");
                     out.println("</html>");
                     }

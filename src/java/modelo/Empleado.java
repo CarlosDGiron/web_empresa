@@ -94,6 +94,7 @@ public class Empleado extends Persona {
             return 0;
         }
     }
+    
      @Override
     public int modificar(){
         try {
@@ -122,6 +123,7 @@ public class Empleado extends Persona {
             return 0;
         }
     }
+    
     @Override
     public int eliminar(){        
         try {
@@ -140,6 +142,7 @@ public class Empleado extends Persona {
             return 0;
         }
     }
+    
     @Override
     public DefaultTableModel mostrar(){
         DefaultTableModel model=new DefaultTableModel();
@@ -173,5 +176,4 @@ public class Empleado extends Persona {
         c.cerrar_conexion();
         return model;
     }
-
 }

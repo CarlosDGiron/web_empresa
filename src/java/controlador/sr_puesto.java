@@ -10,16 +10,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;  
-import java.util.Date;  
-import modelo.Empleado;
+import modelo.Puesto;
 import modelo.Usuario;
-
 /**
  *
  * @author cana0
  */
-public class sr_empleado extends HttpServlet {
+public class sr_puesto extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,12 +32,6 @@ public class sr_empleado extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title></title>");            
-            out.println("</head>");
-            out.println("<body>");
             int idUsuario=0;
             if(request.getSession().getAttribute("idUsuario")!=null){
                 idUsuario=(int)request.getSession().getAttribute("idUsuario");
@@ -48,32 +39,29 @@ public class sr_empleado extends HttpServlet {
             if(idUsuario!=0){
                 Usuario u=new Usuario();
                 if(u.tienePermisoId(idUsuario, 1)){
-                    //Permisos adecuados
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
-                    Date date = new Date();  
-                    System.out.println(formatter.format(date));  
+                    //Permisos adecuados 
                     //Empleado(int id, String nombres, String apellidos, String direccion, String telefono, String dpi, boolean genero, String fecha_nacimiento, String fechaingreso,int puesto,String fecha_inicio_labores)
-                    Empleado e = new Empleado(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),request.getParameter("txt_dpi"),request.getParameter("drop_genero").equals("M"),request.getParameter("txt_nacimiento"),Integer.parseInt(request.getParameter("drop_puesto")),request.getParameter("txt_finicio"),formatter.format(date));
+                    Puesto p = new Puesto(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_puesto"));
                     if("Agregar".equals(request.getParameter("btn_agregar"))){
-                        if (e.agregar()==1){
+                        if (p.agregar()==1){
                         out.println("<h1>Ingreso exitoso.</h1>");
                         }else{
                         out.println("<h1>No se pudo ingresar el registro.</h1>");
                         }
                     }else if("Modificar".equals(request.getParameter("btn_modificar"))){
-                        if (e.modificar()==1){
+                        if (p.modificar()==1){
                         out.println("<h1>Registro modificado.</h1>");
                         }else{
                         out.println("<h1>No se pudo modificar el registro.</h1>");
                         }                
                     }else if("Eliminar".equals(request.getParameter("btn_eliminar"))){
-                        if (e.eliminar()==1){
+                        if (p.eliminar()==1){
                         out.println("<h1>Registro eliminado.</h1>");
                         }else{
                         out.println("<h1>No se pudo eliminar el registro.</h1>");
                         }               
                     }            
-                    out.println("<a href ='empleados.jsp'>Regresar</a>");
+                    out.println("<a href ='puestos.jsp'>Regresar</a>");
                     out.println("</body>");
                     out.println("</html>");
                     }
@@ -81,10 +69,10 @@ public class sr_empleado extends HttpServlet {
                     out.println("<h1>Usted no tiene permisos.</h1>");
                     out.println("</body>");
                     out.println("</html>");
-            }
-        }                
+                }
+        }
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -123,4 +111,5 @@ public class sr_empleado extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

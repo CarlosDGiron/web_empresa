@@ -6,20 +6,18 @@ package controlador;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.Cliente;
+import modelo.Marca;
 import modelo.Usuario;
 
 /**
  *
  * @author cana0
  */
-public class sr_cliente extends HttpServlet {
+public class sr_marca extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,6 +32,7 @@ public class sr_cliente extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -48,11 +47,9 @@ public class sr_cliente extends HttpServlet {
                 Usuario u=new Usuario();
                 if(u.tienePermisoId(idUsuario, 1)){
                     //Permisos adecuados
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
-                    Date date = new Date();  
-                    System.out.println(formatter.format(date));  
-                    //Cliente(int id, String nombres, String apellidos,  String nit, boolean genero, String telefono, String correo_electronico, String fechaingreso)
-                    Cliente e = new Cliente(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_nit"),request.getParameter("drop_genero").equals("M"),request.getParameter("txt_telefono"),request.getParameter("txt_correo_electronico"),formatter.format(date));
+                   
+                    //Empleado(int id, String nombres, String apellidos, String direccion, String telefono, String dpi, boolean genero, String fecha_nacimiento, String fechaingreso,int puesto,String fecha_inicio_labores)
+                    Marca e = new Marca(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_marca"));
                     if("Agregar".equals(request.getParameter("btn_agregar"))){
                         if (e.agregar()==1){
                         out.println("<h1>Ingreso exitoso.</h1>");
@@ -72,7 +69,7 @@ public class sr_cliente extends HttpServlet {
                         out.println("<h1>No se pudo eliminar el registro.</h1>");
                         }               
                     }            
-                    out.println("<a href ='Clientes.jsp'>Regresar</a>");
+                    out.println("<a href ='Marcas.jsp'>Regresar</a>");
                     out.println("</body>");
                     out.println("</html>");
                     }
@@ -81,9 +78,9 @@ public class sr_cliente extends HttpServlet {
                     out.println("</body>");
                     out.println("</html>");
             }
-        }
+        }                
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -122,4 +119,5 @@ public class sr_cliente extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

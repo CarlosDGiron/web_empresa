@@ -61,7 +61,7 @@ public class sr_puesto extends HttpServlet {
                         out.println("<h1>No se pudo eliminar el registro.</h1>");
                         }               
                     }            
-                    out.println("<a href ='puestos.jsp'>Regresar</a>");
+                    out.println("<a href ='Puestos.jsp'>Regresar</a>");
                     out.println("</body>");
                     out.println("</html>");
                     }

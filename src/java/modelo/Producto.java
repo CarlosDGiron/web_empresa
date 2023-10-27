@@ -7,6 +7,7 @@ package modelo;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -104,6 +105,54 @@ public class Producto {
 
     public void setPrecio_venta(double precio_venta) {
         this.precio_venta = precio_venta;
+    }
+    
+    public HashMap drop_producto(){
+        HashMap<String,String> drop=new HashMap();
+        c=new Conexion();
+        c.abrir_conexion();
+        try{
+            String query="select idProducto as id, producto from db_empresa.productos;";
+            ResultSet consulta=c.conexionDB.createStatement().executeQuery(query);
+            while(consulta.next()){
+                drop.put(consulta.getString("id"), consulta.getString("producto"));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        c.cerrar_conexion();
+        return drop;
+    }
+     public String getId(String des){
+         String x=null;
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("Select idProducto from db_empresa.productos where productos =\""+des+"\";");
+            res.next();
+            x=res.getString("idProducto");
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+        }
+        c.cerrar_conexion();
+        return x;
+    }
+    
+    public String getDes(String id){
+        String x=null;  
+        c=new Conexion();
+        c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("Select producto from db_empresa.productos where idProducto ="+id+";");
+            res.next();
+            x=res.getString("producto");
+        }catch(SQLException ex){
+            System.out.println("Eror Des:"+ex.getMessage());
+        }
+        c.cerrar_conexion();
+        return x;
     }
     
     public int agregar(){

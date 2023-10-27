@@ -42,6 +42,7 @@ public class Marca {
     public void setMarca(String marca) {
         this.marca = marca;
     }
+    
     public HashMap drop_marca(){
         HashMap<String,String> drop=new HashMap();
         c=new Conexion();

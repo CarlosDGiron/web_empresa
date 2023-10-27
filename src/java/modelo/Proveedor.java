@@ -7,6 +7,7 @@ package modelo;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -153,5 +154,53 @@ public class Proveedor {
         }
         c.cerrar_conexion();
         return model;
+    }
+    
+    public HashMap drop_proveedor(){
+        HashMap<String,String> drop=new HashMap();
+        c=new Conexion();
+        c.abrir_conexion();
+        try{
+            String query="select idProveedor as id, proveedor from db_empresa.proveedores;";
+            ResultSet consulta=c.conexionDB.createStatement().executeQuery(query);
+            while(consulta.next()){
+                drop.put(consulta.getString("id"), consulta.getString("proveedor"));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        c.cerrar_conexion();
+        return drop;
+    }
+     public String getId(String des){
+         String x=null;
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("Select idProveedor from db_empresa.proveedores where proveedor =\""+des+"\";");
+            res.next();
+            x=res.getString("idProveedor");
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+        }
+        c.cerrar_conexion();
+        return x;
+    }
+    
+    public String getDes(String id){
+        String x=null;  
+        c=new Conexion();
+        c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("Select marca from db_empresa.proveedores where idProveedor ="+id+";");
+            res.next();
+            x=res.getString("proveedor");
+        }catch(SQLException ex){
+            System.out.println("Eror Des:"+ex.getMessage());
+        }
+        c.cerrar_conexion();
+        return x;
     }
 }

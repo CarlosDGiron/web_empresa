@@ -24,6 +24,10 @@
         <servlet-name>sr_producto</servlet-name>
         <servlet-class>controlador.sr_producto</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>sr_compras</servlet-name>
+        <servlet-class>controlador.sr_compras</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>sr_empleado</servlet-name>
         <url-pattern>/sr_empleado</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>sr_producto</servlet-name>
         <url-pattern>/sr_producto</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sr_compras</servlet-name>
+        <url-pattern>/sr_compras</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

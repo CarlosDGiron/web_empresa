@@ -13,15 +13,15 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author cana0
  */
-public class compras_detalle {
+public class Compra_detalle {
     private int idCompra_detalle, idCompra, idProducto, cantidad;
     private double precio_costo_unitario;
     private Conexion c;
 
-    public compras_detalle() {
+    public Compra_detalle() {
     }
 
-    public compras_detalle(int idCompra_detalle, int idCompra, int idProducto, int cantidad, double precio_costo_unitario) {
+    public Compra_detalle(int idCompra_detalle, int idCompra, int idProducto, int cantidad, double precio_costo_unitario) {
         this.idCompra_detalle = idCompra_detalle;
         this.idCompra = idCompra;
         this.idProducto = idProducto;
@@ -140,6 +140,33 @@ public class compras_detalle {
             String encabezado []={"ID Compra Detalle","ID Compra","Producto","Cantidad","Precio costo unitario","ID Producto"};
             model.setColumnIdentifiers(encabezado);
             res=c.conexionDB.createStatement().executeQuery("Select * from db_empresa.compras_detalle;");
+            String datos[]=new String[6];
+            while(res.next()){
+                datos[0]=res.getString("idCompra_detalle");
+                datos[1]=res.getString("idCompra");
+                datos[5]=res.getString("idProducto");
+                datos[3]=res.getString("cantidad");
+                datos[4]=res.getString("precio_costo_unitario");   
+                datos[2]=p.getDes(datos[5]);
+                model.addRow(datos);             
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        c.cerrar_conexion();
+        return model;
+    }
+    
+    public DefaultTableModel mostrarPorId(int idCompra_){
+        DefaultTableModel model=new DefaultTableModel();
+        c=new Conexion();
+        c.abrir_conexion();
+        try{
+            Producto p = new Producto();
+            ResultSet res;
+            String encabezado []={"ID Compra Detalle","ID Compra","Producto","Cantidad","Precio costo unitario","ID Producto"};
+            model.setColumnIdentifiers(encabezado);
+            res=c.conexionDB.createStatement().executeQuery("Select * from db_empresa.compras_detalle WHERE idCompra="+idCompra_+";");
             String datos[]=new String[8];
             while(res.next()){
                 datos[0]=res.getString("idCompra_detalle");
@@ -160,17 +187,17 @@ public class compras_detalle {
     public int getCantidadProductos(int IdCompra_){
         c=new Conexion();
         c.abrir_conexion();
+         int cant=0;
         try{
-            int cantidad=0;
             ResultSet res;
             String query="Select COUNT(*) as cant from db_empresa.compras_detalle WHERE idCompra="+String.valueOf(IdCompra_)+";";
             res=c.conexionDB.createStatement().executeQuery(query);
             res.next();
-            cantidad =res.getInt("cant");
+            cant =res.getInt("cant");
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
         c.cerrar_conexion();
-        return cantidad;
+        return cant;
     }
 }

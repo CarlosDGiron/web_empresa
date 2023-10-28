@@ -194,7 +194,7 @@ public class Proveedor {
         c.abrir_conexion();
         try{
             ResultSet res;
-            res=c.conexionDB.createStatement().executeQuery("Select marca from db_empresa.proveedores where idProveedor ="+id+";");
+            res=c.conexionDB.createStatement().executeQuery("Select proveedor from db_empresa.proveedores where idProveedor ="+id+";");
             res.next();
             x=res.getString("proveedor");
         }catch(SQLException ex){

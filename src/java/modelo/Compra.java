@@ -140,7 +140,7 @@ public class Compra {
             String encabezado []={"ID Compra","No. Orden de compra","Proveedor","Fecha de orden","Fecha de ingreso", "ID Proveedor"};
             model.setColumnIdentifiers(encabezado);
             res=c.conexionDB.createStatement().executeQuery("Select * from db_empresa.compras;");
-            String datos[]=new String[8];
+            String datos[]=new String[6];
             while(res.next()){
                 datos[0]=res.getString("idCompra");
                 datos[1]=res.getString("no_orden_compra");

@@ -21,11 +21,17 @@
             if(idUsuario!=0){
                 Usuario u=new Usuario();
                 if(u.tienePermisoId(idUsuario, 1)){
-                    out.println("<h1>Permiso 1.</h1>");
+                    out.println("<center><h2><a href='Empleados.jsp'>Empleados</a></h2></center>");
+                    out.println("<center><h2><a href='Puestos.jsp'>Puestos</a></h2></center>");
+                    out.println("<center><h2><a href=Productos.jsp'>Productos</a></h2></center>");
+                    out.println("<center><h2><a href='Marcas.jsp'>Marcas</a></h2></center>");
+                    out.println("<center><h2><a href='Proveedores.jsp'>Proveedores</a></h2></center>");
+                    out.println("<center><h2><a href='Compras_Detalles.jsp'>Compras</a></h2></center>");
                 }
             }else{
                     out.println("<h1>Usted no tiene permisos.</h1>");
                 }
         %>
+        
     </body>
 </html>

@@ -186,7 +186,18 @@
                 $("#drop_producto").val(idproducto);
                 $("#txt_cantidad").val(cantidad);            
                 $("#txt_precio").val(precio);
+                var 
             });
+        </script>
+        <<script type="text/javascript">
+            function actualizardetalles(id,array){
+                var idcompra=id;
+                var datos=array;
+                var tabladatos,filas="";
+                for (var i = 0; i < datos.length; i++) {
+                    filas=filas+"<tr data-idproducto="+datos[i][0]+"><td>"+datos[i][1]+"</td><td>"+datos[i][2]+"</td><td>"+datos[i][3]+"</td></tr>";
+                }
+            }
         </script>
         <%}else{%>
             <h1>No tienes permiso para ver esta página.</h1>

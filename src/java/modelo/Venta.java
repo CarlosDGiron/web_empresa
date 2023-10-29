@@ -157,17 +157,18 @@ public class Venta {
         try{
             Proveedor p = new Proveedor();
             ResultSet res;
-            String encabezado []={"ID Compra","No. Orden de compra","Proveedor","Fecha de orden","Fecha de ingreso", "ID Proveedor"};
+            String encabezado []={"ID Venta","No. Factura","Proveedor","Serie","Fecha de la factura", "ID Cliente","ID Empleado","Fecha ingreso"};
             model.setColumnIdentifiers(encabezado);
             res=c.conexionDB.createStatement().executeQuery("Select * from db_empresa.ventas;");
-            String datos[]=new String[6];
+            String datos[]=new String[7];
             while(res.next()){
-                datos[0]=res.getString("idCompra");
-                datos[1]=res.getString("no_orden_compra");
-                datos[5]=res.getString("idProveedor");
-                datos[3]=res.getString("fecha_orden");
-                datos[4]=res.getString("fechaingreso");   
-                datos[2]=p.getDes(datos[5]);
+                datos[0]=res.getString("idVenta");
+                datos[1]=res.getString("nofactura");
+                datos[2]=res.getString("serie");
+                datos[3]=res.getString("fechafactura");
+                datos[4]=res.getString("idCliente");   
+                datos[5]=res.getString("idEmpleado");
+                datos[6]=res.getString("fechaingreso");                
                 model.addRow(datos);             
             }
         }catch(SQLException ex){

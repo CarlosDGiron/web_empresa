@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -61,8 +62,9 @@ public class sr_compras extends HttpServlet {
                         if (e.agregar()==1){
                             //en proceso
                             for (int i=0;i>cd.getCantidadProductos(Integer.parseInt(request.getParameter("txt_id")));i++){
-                               
                                 cd=new Compra_detalle();
+                                //List<DataTableRow> datosTabla = (List<DataTableRow>) request.getAttribute("datosTabla");
+                                //String valorCelda = datosTabla.get(0).getValueAt(1);
                             }
                         out.println("<h1>Ingreso exitoso.</h1>");
                         }else{

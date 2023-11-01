@@ -82,16 +82,17 @@ public class sr_compras extends HttpServlet {
                         //int idCompra, int no_orden_compra, int idProveedor, String fecha_orden, String fechaingreso
                         e=new Compra(idcompra,Integer.parseInt(request.getParameter("txt_no_orden"+String.valueOf(idcompra))),Integer.parseInt(request.getParameter("drop_proveedor"+String.valueOf(idcompra))),request.getParameter("txt_fecha_orden"+String.valueOf(idcompra)),formatter.format(date));
                         if (e.modificar()==1){
-                            /*int contadordeinserts=0;
-                            for (int i=0;i<Integer.parseInt(request.getParameter("noproductos"));i++){
-                                idproducto=Integer.parseInt(request.getParameter("idProducto"+i));
-                                cantidad=Integer.parseInt(request.getParameter("cantidad"+i));
-                                precio=Double.parseDouble(request.getParameter("precio"+i));
-                                cd=new Compra_detalle(0,idcompra,idproducto,cantidad,precio);
-                                if(cd.agregar()>0){
+                            int contadordeinserts=0; 
+                            for (int i:cd.idDetallePorIdCompra(idcompra)){
+                                System.out.println(i);
+                                idproducto=Integer.parseInt(request.getParameter("drop_producto"+String.valueOf(i)));
+                                cantidad=Integer.parseInt(request.getParameter("cantidad"+String.valueOf(i)));
+                                precio=Double.parseDouble(request.getParameter("precio"+String.valueOf(i)));
+                                cd=new Compra_detalle(i,idcompra,idproducto,cantidad,precio);
+                                if(cd.modificar()>0){
                                     contadordeinserts++;
                                 }
-                            }*/
+                            }
                             out.println("<h1>Registro modificado.</h1>");
                         }else{
                             out.println("<h1>No se pudo modificar el registro.</h1>");

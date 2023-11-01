@@ -65,7 +65,6 @@
                         </table>
                         <input name="idCompra" id="idCompra" type="hidden" value="0">
                         <%cd= new Compra_detalle();
-                        System.out.println(c.maxIdCompra());
                         modelo= new DefaultTableModel();
                         for(int i=1;i<c.maxIdCompra()+1;i++){
                         if(!c.existe(i)){
@@ -129,8 +128,8 @@
                                                         }
                                                     }                                                
                                                     out.println("</select></td>");                                                    
-                                                    out.println("<td><input type=\"number\" name=\"cantidad"+modelo.getValueAt(tt,0)+"\" id=\"cantidad"+modelo.getValueAt(tt,0)+"\" value=\""+modelo.getValueAt(tt,3)+"\"></td>");
-                                                    out.println("<td><input type=\"number\" name=\"precio"+modelo.getValueAt(tt,0)+"\" id=\"precio"+modelo.getValueAt(tt,0)+"\" value=\""+modelo.getValueAt(tt,4)+"\"></td>");
+                                                    out.println("<td><input type=\"number\" step=\"1\" min=\"1\" name=\"cantidad"+modelo.getValueAt(tt,0)+"\" id=\"cantidad"+modelo.getValueAt(tt,0)+"\" value=\""+modelo.getValueAt(tt,3)+"\"></td>");
+                                                    out.println("<td><input type=\"number\" step=\"0.01\" min=\"0.01\" name=\"precio"+modelo.getValueAt(tt,0)+"\" id=\"precio"+modelo.getValueAt(tt,0)+"\" value=\""+modelo.getValueAt(tt,4)+"\"></td>");
                                                     out.println("</tr>");
                                                 }%>
                                                 </tbody>

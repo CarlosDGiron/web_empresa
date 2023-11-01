@@ -68,6 +68,32 @@ public class Compra_detalle {
     public void setPrecio_costo_unitario(double precio_costo_unitario) {
         this.precio_costo_unitario = precio_costo_unitario;
     }
+     public int[] idDetallePorIdCompra(int idc_){
+        int idetalle[];
+        int aux=0;
+        c=new Conexion();
+        c.abrir_conexion();
+        try{
+            String query="select count(idCompra_detalle) as id from db_empresa.compras_detalle where idCompra='"+String.valueOf(idc_)+" GROUP BY idCompra_detalle';";
+            ResultSet count=c.conexionDB.createStatement().executeQuery(query);
+            query="select idCompra_detalle as id from db_empresa.compras_detalle where idCompra='"+String.valueOf(idc_)+"';";
+            ResultSet consulta=c.conexionDB.createStatement().executeQuery(query);
+            count.next();
+            System.out.println(count.getInt("id"));
+            idetalle = new int[count.getInt("id")];
+            int i=0;
+            while(consulta.next()){
+                idetalle[i]= consulta.getInt("id");
+                i++;
+            }
+        c.cerrar_conexion();
+        return idetalle;
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+            c.cerrar_conexion();
+            return null;
+        }        
+    }
     
     public int agregar(){
         try{

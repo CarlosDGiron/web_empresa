@@ -68,6 +68,57 @@ public class Compra {
     public void setFechaingreso(String fechaingreso) {
         this.fechaingreso = fechaingreso;
     }
+    //SELECT MAX(idCompra) FROM db_empresa.compras;
+    public int maxIdCompra(){
+         int x;
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("SELECT MAX(idCompra) as id FROM db_empresa.compras;");
+            res.next();
+            x=res.getInt("id");
+            c.cerrar_conexion();
+            return x;
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+            return 0;
+        }
+    }
+    
+    public String ordenPorId(int id){
+         String x;
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("SELECT no_orden_compra FROM db_empresa.compras WHERE idCompra="+String.valueOf(id)+";");
+            res.next();
+            x=res.getString("no_orden_compra");
+            c.cerrar_conexion();
+            return x;
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+            return null;
+        }
+    }
+    
+    public boolean existe (int idcompra){
+        try{
+        c= new Conexion();
+        c.abrir_conexion();
+        ResultSet res;
+        String query="SELECT * from db_empresa.compras where idCompra='"+String.valueOf(idcompra)+"';";
+        res=c.conexionDB.createStatement().executeQuery(query);
+        return res.next();
+        }catch(SQLException ex){
+        System.out.println(ex.getMessage());
+        return false;
+        }
+        finally{
+            c.cerrar_conexion();
+        }        
+    }
     
     public int agregar(){
         try{
@@ -80,9 +131,14 @@ public class Compra {
             parametro.setInt(2,getIdProveedor());
             parametro.setString(3,getFecha_orden());
             parametro.setString(4,getFechaingreso());
-            int ejecutar=parametro.executeUpdate();            
-            c.cerrar_conexion();
-            return ejecutar;
+            int ejecutar=parametro.executeUpdate();
+            if(ejecutar>0){
+                idCompra=maxIdCompra();
+                c.cerrar_conexion();
+                return 1;
+            }else{
+                return 0;
+            }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
             c.cerrar_conexion();

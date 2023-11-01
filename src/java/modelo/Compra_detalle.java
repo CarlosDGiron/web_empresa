@@ -117,9 +117,9 @@ public class Compra_detalle {
             c=new Conexion();
             c.abrir_conexion();
             PreparedStatement parametro;
-            String query="DELETE FROM db_empresa.compras_detalle WHERE idCompra_detalle=?;";
+            String query="DELETE FROM db_empresa.compras_detalle WHERE idCompra=?;";
             parametro=(PreparedStatement) c.conexionDB.prepareStatement(query);
-            parametro.setInt(1,getIdCompra_detalle());
+            parametro.setInt(1,getIdCompra());
             int ejecutar = parametro.executeUpdate();
             c.cerrar_conexion();
             return ejecutar;
@@ -175,7 +175,7 @@ public class Compra_detalle {
                 datos[3]=res.getString("cantidad");
                 datos[4]=res.getString("precio_costo_unitario");   
                 datos[2]=p.getDes(datos[5]);
-                model.addRow(datos);             
+                model.addRow(datos); 
             }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());

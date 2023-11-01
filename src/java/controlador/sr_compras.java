@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -52,38 +51,66 @@ public class sr_compras extends HttpServlet {
                 Usuario u=new Usuario();
                 if(u.tienePermisoId(idUsuario, 1)){
                     //Permisos adecuados
+                    int cantidad,idproducto,idcompra;
+                    double precio;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
                     Date date = new Date();  
                     Proveedor p=new Proveedor();
-                    Compra e = new Compra(Integer.parseInt(request.getParameter("txt_id")),Integer.parseInt(request.getParameter("txt_no_orden")),Integer.parseInt(request.getParameter("drop_proveedor")),request.getParameter("txt_fecha_orden"),formatter.format(date));
+                    Compra e ;
                     Compra_detalle cd =new Compra_detalle();
-                    System.out.println(cd.getCantidadProductos(Integer.parseInt(request.getParameter("txt_id"))));
                     if("Agregar".equals(request.getParameter("btn_agregar"))){
+                         e = new Compra(0,Integer.parseInt(request.getParameter("txt_no_orden")),Integer.parseInt(request.getParameter("drop_proveedor")),request.getParameter("txt_fecha_orden"),formatter.format(date));
                         if (e.agregar()==1){
-                            //en proceso
-                            for (int i=0;i>cd.getCantidadProductos(Integer.parseInt(request.getParameter("txt_id")));i++){
-                                cd=new Compra_detalle();
-                                //List<DataTableRow> datosTabla = (List<DataTableRow>) request.getAttribute("datosTabla");
-                                //String valorCelda = datosTabla.get(0).getValueAt(1);
+                            int contadordeinserts=0;
+                            idcompra=e.getIdCompra();
+                            for (int i=0;i<Integer.parseInt(request.getParameter("noproductos"));i++){
+                                idproducto=Integer.parseInt(request.getParameter("idProducto"+i));
+                                cantidad=Integer.parseInt(request.getParameter("cantidad"+i));
+                                precio=Double.parseDouble(request.getParameter("precio"+i));
+                                cd=new Compra_detalle(0,idcompra,idproducto,cantidad,precio);
+                                if(cd.agregar()>0){
+                                    contadordeinserts++;
+                                }
                             }
-                        out.println("<h1>Ingreso exitoso.</h1>");
+                            out.println("<h1>Ingreso exitoso</h1>");
+                            out.println("<p>Se agrego la compra con un total de "+contadordeinserts+" productos.</p>");
                         }else{
-                        out.println("<h1>No se pudo ingresar el registro.</h1>");
+                            out.println("<h1>No se pudo ingresar el registro.</h1>");
                         }
                     }else if("Modificar".equals(request.getParameter("btn_modificar"))){
+                        idcompra=Integer.parseInt(request.getParameter("idCompra"));
+                        //int idCompra, int no_orden_compra, int idProveedor, String fecha_orden, String fechaingreso
+                        e=new Compra(idcompra,Integer.parseInt(request.getParameter("txt_no_orden"+String.valueOf(idcompra))),Integer.parseInt(request.getParameter("drop_proveedor"+String.valueOf(idcompra))),request.getParameter("txt_fecha_orden"+String.valueOf(idcompra)),formatter.format(date));
                         if (e.modificar()==1){
-                        out.println("<h1>Registro modificado.</h1>");
+                            /*int contadordeinserts=0;
+                            for (int i=0;i<Integer.parseInt(request.getParameter("noproductos"));i++){
+                                idproducto=Integer.parseInt(request.getParameter("idProducto"+i));
+                                cantidad=Integer.parseInt(request.getParameter("cantidad"+i));
+                                precio=Double.parseDouble(request.getParameter("precio"+i));
+                                cd=new Compra_detalle(0,idcompra,idproducto,cantidad,precio);
+                                if(cd.agregar()>0){
+                                    contadordeinserts++;
+                                }
+                            }*/
+                            out.println("<h1>Registro modificado.</h1>");
                         }else{
-                        out.println("<h1>No se pudo modificar el registro.</h1>");
+                            out.println("<h1>No se pudo modificar el registro.</h1>");
                         }                
                     }else if("Eliminar".equals(request.getParameter("btn_eliminar"))){
-                        if (e.eliminar()==1){
-                        out.println("<h1>Registro eliminado.</h1>");
+                        e = new Compra();
+                        e.setIdCompra(Integer.parseInt(request.getParameter("idCompra")));
+                        cd.setIdCompra(Integer.parseInt(request.getParameter("idCompra")));
+                        if (cd.eliminar()>0){
+                            if(e.eliminar()>0){
+                                out.println("<h1>Registro eliminado.</h1>");
+                            }else{
+                                out.println("<h1>No se pudo eliminar el registro.</h1>");
+                            }
                         }else{
-                        out.println("<h1>No se pudo eliminar el registro.</h1>");
+                            out.println("<h1>No se pudo eliminar el registro.</h1>");
                         }               
-                    }            
-                    out.println("<a href ='Clientes.jsp'>Regresar</a>");
+                    }
+                    out.println("<a href ='Compras.jsp'>Regresar</a>");
                     out.println("</body>");
                     out.println("</html>");
                     }

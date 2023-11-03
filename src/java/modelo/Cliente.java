@@ -7,6 +7,7 @@ package modelo;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -139,5 +140,22 @@ public class Cliente extends Persona{
         }
         c.cerrar_conexion();
         return model;
+    }
+    
+    public HashMap drop_cliente(){
+        HashMap<String,String> drop=new HashMap();
+        c=new Conexion();
+        c.abrir_conexion();
+        try{
+            String query="SELECT idCliente AS id, CONCAT(nombres,\" \",apellidos) AS cliente FROM db_empresa.clientes;";
+            ResultSet consulta=c.conexionDB.createStatement().executeQuery(query);
+            while(consulta.next()){
+                drop.put(consulta.getString("id"), consulta.getString("cliente"));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        c.cerrar_conexion();
+        return drop;
     }
 }

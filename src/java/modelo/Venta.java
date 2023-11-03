@@ -87,6 +87,57 @@ public class Venta {
         this.fechaingreso = fechaingreso;
     }
     
+    public int maxIdVenta(){
+         int x;
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("SELECT MAX(idVenta) as id FROM db_empresa.ventas;");
+            res.next();
+            x=res.getInt("id");
+            c.cerrar_conexion();
+            return x;
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+            return 0;
+        }
+    }
+    
+    public String ordenPorId(int id){
+         String x;
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("SELECT nofactura FROM db_empresa.ventas WHERE idVenta="+String.valueOf(id)+";");
+            res.next();
+            x=res.getString("nofactura");
+            c.cerrar_conexion();
+            return x;
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+            return null;
+        }
+    }
+    
+    public boolean existe (int idventa){
+        try{
+        c= new Conexion();
+        c.abrir_conexion();
+        ResultSet res;
+        String query="SELECT * from db_empresa.ventas where idVenta='"+String.valueOf(idventa)+"';";
+        res=c.conexionDB.createStatement().executeQuery(query);
+        return res.next();
+        }catch(SQLException ex){
+        System.out.println(ex.getMessage());
+        return false;
+        }
+        finally{
+            c.cerrar_conexion();
+        }        
+    }
+    
     public int agregar(){
         try{
             PreparedStatement parametro;

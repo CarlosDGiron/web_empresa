@@ -1,21 +1,21 @@
 <%-- 
-    Document   : NuevaCompra
-    Created on : 29 oct 2023, 6:27:20 p. m.
+    Document   : NuevaVenta
+    Created on : 2 nov 2023, 6:24:39 p. m.
     Author     : cana0
 --%>
-
-<%@page import="modelo.Producto"%>
 <%@page import="javax.swing.table.DefaultTableModel"%>
 <%@page import="modelo.Compra_detalle"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="modelo.Proveedor"%>
+<%@page import="modelo.Cliente"%>
+<%@page import="modelo.Empleado"%>
+<%@page import="modelo.Producto"%>
 <%@page import="modelo.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Agregar Compra</title>
+        <title>Agregar Venta</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <% 
             response.setHeader("Cache-Control","no-cache, no-store, must-revalidate");
@@ -32,37 +32,49 @@
             if(idUsuario!=0){
                 Usuario u=new Usuario();
                 if(u.tienePermisoId(idUsuario, 1)){%>                
-    <center><h1><br>Formulario Compras<br></h1></center>
+                <center><h1><br>Formulario Venta<br></h1></center>
                     <div class="container">                        
-                        <form id="form" action="sr_compras" method="post" class="form-group" >
+                        <form id="form" action="sr_ventas" method="post" class="form-group" >
                             <div class="row">
                                 <div class="col">
-                                    <label for="lbl_no_orden" >No. Orden:</label>
-                                    <input type="number" name="txt_no_orden" id="txt_no_orden" class="form-control"  placeholder="Ejemplo: 20230101001" required>
+                                    <label for="lbl_no_factura" >No. Factura</label>
+                                    <input type="number" name="txt_no_factura" id="txt_no_factura" class="form-control"  placeholder="Ejemplo: 20230101001" required>
                                 </div><div class="col">
-                                    <label for="lbl_proveedor" >Proveedor:</label>
-                                    <select name="drop_proveedor" id="drop_proveedor" class="form-control">
-                                        <%Proveedor m=new Proveedor();
-                                        HashMap<String,String> drop=m.drop_proveedor();
-                                        for (String i: drop.keySet()){
-                                            out.println("<option value='"+i+"'>"+drop.get(i)+"</option>");
+                                    <label for="lbl_serie" >Serie</label>
+                                    <input type="text" name="txt_serie" id="txt_serie" class="form-control"  placeholder="Ejemplo: A" oninput="limitarSerie(this)" required>
+                                </div><div class="col">
+                                    <label for="lbl_cliente" >Cliente:</label>
+                                    <select name="drop_cliente" id="drop_cliente" class="form-control">
+                                        <%Cliente cliente=new Cliente();
+                                        HashMap<String,String> dropcliente=cliente.drop_cliente();
+                                        for (String i: dropcliente.keySet()){
+                                            out.println("<option value='"+i+"'>"+dropcliente.get(i)+"</option>");
                                         }%>
                                     </select>
                                 </div><div class="col">
-                                    <label for="lbl_fecha_orden" >Fecha de la orden:</label>
-                                    <input type="date" name="txt_fecha_orden" id="txt_fecha_orden" class="form-control" required>
+                                    <label for="lbl_empleado" >Vendedor:</label>
+                                    <select name="drop_empleado" id="drop_empleado" class="form-control">
+                                        <%Empleado empleado=new Empleado();
+                                        HashMap<String,String> dropempleado=empleado.drop_empleado();
+                                        for (String i: dropempleado.keySet()){
+                                            out.println("<option value='"+i+"'>"+dropempleado.get(i)+"</option>");
+                                        }%>
+                                    </select>
+                                </div><div class="col">
+                                    <label for="lbl_fechafactura" >Fecha de la factura:</label>
+                                    <input type="date" name="txt_fechafactura" id="txt_fechafactura" class="form-control" required>
                                 </div>
                             </div><br>
                             <div class="container" style="border: 2px solid grey;">
-                                <h3>Detalle de compra</h3>   
+                                <h3>Detalle de venta</h3>   
                                 <div class="row">
                                     <div class="col">
                                         <label for="lbl_producto" >Producto:</label>
-                                        <select name="drop_producto" id="drop_producto" class="form-control">
-                                            <%Producto p=new Producto();
-                                            HashMap<String,String> dropp=p.drop_producto();
-                                            for (String i: dropp.keySet()){
-                                                out.println("<option value='"+i+"'>"+dropp.get(i)+"</option>");
+                                        <select name="drop_producto" id="drop_producto" class="form-control"onchange="cambiarPrecio()">
+                                            <%Producto producto=new Producto();
+                                            HashMap<String,String> droproducto=producto.drop_producto();
+                                            for (String i: droproducto.keySet()){
+                                                out.println("<option value='"+i+"'>"+droproducto.get(i)+"</option>");
                                             }%>
                                         </select>
                                     </div>
@@ -72,7 +84,14 @@
                                     </div>
                                     <div class="col">
                                         <label for="lbl_precio" >Precio unitario:</label>
-                                        <input type="number" step="0.01" min="0.01" name="txt_precio" id="txt_precio" class="form-control" placeholder="100.00" required>
+                                        <input type="number" step="0.01" min="0.01" name="txt_precio" id="txt_precio" class="form-control" readonly>
+                                        <select name="drop_productoprecio" id="drop_productoprecio" class="form-control" style="display: none;">
+                                            <%
+                                            HashMap<String,String> droproductoprecio=producto.drop_productoprecio();
+                                            for (String i: droproductoprecio.keySet()){
+                                                out.println("<option value='"+i+"'>"+droproductoprecio.get(i)+"</option>");
+                                            }%>
+                                        </select>
                                     </div>
                                     <div class="col">         
                                         <br>
@@ -81,7 +100,7 @@
                                     <script>
                                         document.addEventListener('DOMContentLoaded', function(event) { 
                                             document.getElementById('txt_cantidad').value = 1;
-                                            document.getElementById('txt_precio').value = 100;
+                                            cambiarPrecio();
                                         });
                                     </script>
                                 </div>
@@ -94,7 +113,7 @@
                                                 <th>Cantidad</th>
                                                 <th>Precio unitario</th>
                                             </thead>
-                                            <tbody id="tbl_compra_detalle">
+                                            <tbody id="tbl_venta_detalle">
                                             </tbody>
                                         </table>                        
                                     </div>
@@ -113,14 +132,14 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
         <script>
             // Función para insertar datos en la tabla
-            document.getElementById("btn_add").addEventListener("click", function() {
+                document.getElementById("btn_add").addEventListener("click", function() {
                 //obtenemos los datos
                 var combo=document.getElementById("drop_producto");
                 var idproducto = combo.value;
                 var producto = combo.options[idproducto-1].text;
                 var cantidad = document.getElementById("txt_cantidad").value;
                 var precio = document.getElementById("txt_precio").value;
-                var table = document.getElementById("tbl_compra_detalle");
+                var table = document.getElementById("tbl_venta_detalle");
                 //agregamos las filas a la tabla
                 var row = table.insertRow();
                 row.setAttribute('data-idProducto', idproducto);
@@ -129,10 +148,13 @@
                 var c3 = row.insertCell(2);
                 c1.innerHTML = producto;
                 c2.innerHTML = cantidad;
-                c3.innerHTML = precio;
-                document.getElementById("drop_producto").selectedIndex=0;
+                c3.innerHTML = precio;                
+                combo.selectedIndex=0;
                 document.getElementById("txt_cantidad").value = 1;
-                document.getElementById("txt_precio").value = 100;
+                var productoprecio = document.getElementById("drop_productoprecio");
+                var precioventa = document.getElementById("txt_precio");
+                var precioproducto = productoprecio.options[combo.selectedIndex].text;
+                precioventa.value = parseFloat(precioproducto);                
                 //agregarmos hidden input para exportar los datos al servlet
                 var noproductos=document.getElementById("noproductos");
                 var idp=document.createElement("input");
@@ -160,5 +182,25 @@
                 noproductos.value=parseInt(noproductos.value)+1;
             });
         </script>
+        <script>
+            function cambiarPrecio() {
+                var producto = document.getElementById("drop_producto");
+                var productoprecio = document.getElementById("drop_productoprecio");
+                var precioventa = document.getElementById("txt_precio");
+                var precioproducto = productoprecio.options[producto.selectedIndex].text;
+                precioventa.value = parseFloat(precioproducto);
+            }
+        </script>
+        <script>
+            function limitarSerie(input) {
+                var valor = input.value;
+                valor = valor.replace(/[^a-zA-Z]/g, '');
+                if (valor.length > 1) {
+                    valor = valor.charAt(0);
+                }
+                input.value = valor;
+            }
+        </script>
     </body>
 </html>
+

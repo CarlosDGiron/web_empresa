@@ -28,6 +28,10 @@
         <servlet-name>sr_compras</servlet-name>
         <servlet-class>controlador.sr_compras</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>sr_venta</servlet-name>
+        <servlet-class>controlador.sr_venta</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>sr_empleado</servlet-name>
         <url-pattern>/sr_empleado</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>sr_compras</servlet-name>
         <url-pattern>/sr_compras</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sr_venta</servlet-name>
+        <url-pattern>/sr_venta</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -87,7 +87,7 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <label for="lbl_no_orden" >No. Orden:</label>
-                                                    <input type="text" name="txt_no_orden<%out.print(i);%>" id="txt_no_orden<%out.print(i);%>" class="form-control"  value="<%out.print(model.getValueAt(i-1,1));%>" required>
+                                                    <input type="number" name="txt_no_orden<%out.print(i);%>" id="txt_no_orden<%out.print(i);%>" class="form-control"  value="<%out.print(model.getValueAt(i-1,1));%>" required>
                                                     </div><div class="col">
                                                     <label for="lbl_proveedor" >Proveedor:</label>
                                                     <select name="drop_proveedor<%out.print(i);%>" id="drop_proveedor<%out.print(i);%>" class="form-control">

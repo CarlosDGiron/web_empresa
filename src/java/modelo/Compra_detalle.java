@@ -68,7 +68,8 @@ public class Compra_detalle {
     public void setPrecio_costo_unitario(double precio_costo_unitario) {
         this.precio_costo_unitario = precio_costo_unitario;
     }
-     public int[] idDetallePorIdCompra(int idc_){
+    
+    public int[] idDetallePorIdCompra(int idc_){
         int idetalle[];
         int aux=0;
         c=new Conexion();

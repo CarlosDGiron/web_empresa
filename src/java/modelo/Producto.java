@@ -107,6 +107,23 @@ public class Producto {
         this.precio_venta = precio_venta;
     }
     
+    public HashMap drop_productoprecio(){
+        HashMap<String,String> drop=new HashMap();
+        c=new Conexion();
+        c.abrir_conexion();
+        try{
+            String query="select idProducto as id, precio_venta from db_empresa.productos;";
+            ResultSet consulta=c.conexionDB.createStatement().executeQuery(query);
+            while(consulta.next()){
+                drop.put(consulta.getString("id"), consulta.getString("precio_venta"));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        c.cerrar_conexion();
+        return drop;
+    }
+    
     public HashMap drop_producto(){
         HashMap<String,String> drop=new HashMap();
         c=new Conexion();
@@ -123,6 +140,7 @@ public class Producto {
         c.cerrar_conexion();
         return drop;
     }
+    
      public String getId(String des){
          String x=null;
          c=new Conexion();

@@ -17,8 +17,12 @@ public class Venta {
     private int idVenta, nofactura,idCliente,idEmpleado;
     private String serie, fechafactura, fechaingreso;
     private Conexion c;
-
+    private Empleado empleado;
+    private Cliente cliente;
+    
     public Venta() {
+        empleado=new Empleado();
+        cliente=new Cliente();
     }
 
     public Venta(int idVenta, int nofactura, String serie, String fechafactura, int idCliente, int idEmpleado, String fechaingreso) {
@@ -29,6 +33,8 @@ public class Venta {
         this.serie = serie;
         this.fechafactura = fechafactura;
         this.fechaingreso = fechaingreso;
+        empleado=new Empleado();
+        cliente=new Cliente();
     }
 
     public int getIdVenta() {
@@ -104,7 +110,7 @@ public class Venta {
         }
     }
     
-    public String ordenPorId(int id){
+    public String facturaPorId(int id){
          String x;
          c=new Conexion();
          c.abrir_conexion();
@@ -119,6 +125,31 @@ public class Venta {
             System.out.println("Eror Id:"+ex.getMessage());
             return null;
         }
+    }
+    
+    public int[] listaIdVenta(){
+        int idetalle[];
+        c=new Conexion();
+        c.abrir_conexion();
+        try{
+            String query="SELECT COUNT(idVenta) AS id FROM db_empresa.ventas;";
+            ResultSet count=c.conexionDB.createStatement().executeQuery(query);
+            query="SELECT idVenta AS id FROM db_empresa.ventas;";
+            ResultSet consulta=c.conexionDB.createStatement().executeQuery(query);
+            count.next();
+            idetalle = new int[count.getInt("id")];
+            int i=0;
+            while(consulta.next()){
+                idetalle[i]= consulta.getInt("id");
+                i++;
+            }
+        c.cerrar_conexion();
+        return idetalle;
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+            c.cerrar_conexion();
+            return null;
+        }        
     }
     
     public boolean existe (int idventa){
@@ -143,16 +174,22 @@ public class Venta {
             PreparedStatement parametro;
             c=new Conexion();
             c.abrir_conexion();
-            String query="INSERT INTO db_empresa.ventas(nofactura, serie, fechafactura, idCliente, fechaingreso) VALUES(?,?,?,?,?);";
+            String query="INSERT INTO db_empresa.ventas(nofactura, serie, fechafactura, idCliente, idEmpleado, fechaingreso) VALUES(?,?,?,?,?,?);";
             parametro=(PreparedStatement) c.conexionDB.prepareStatement(query);
             parametro.setInt(1,getNofactura());
             parametro.setString(2,getSerie());
             parametro.setString(3,getFechafactura());
             parametro.setInt(4,getIdCliente());
-            parametro.setString(5,getFechaingreso());
-            int ejecutar=parametro.executeUpdate();            
-            c.cerrar_conexion();
-            return ejecutar;
+            parametro.setInt(5,getIdEmpleado());
+            parametro.setString(6,getFechaingreso());
+            int ejecutar=parametro.executeUpdate();
+            if(ejecutar>0){
+                idVenta=maxIdVenta();                
+                c.cerrar_conexion();
+                return 1;
+            }else{
+                return 0;
+            }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
             c.cerrar_conexion();
@@ -165,14 +202,15 @@ public class Venta {
             c= new Conexion();
             c.abrir_conexion();
             PreparedStatement parametro;
-            String query="UPDATE db_empresa.ventas SET nofactura=?, serie=?, fechafactura=?, idCliente=?, fechaingreso=? where idVentas=?;";
+            String query="UPDATE db_empresa.ventas SET nofactura=?, serie=?, fechafactura=?, idCliente=?, idEmpleado=?, fechaingreso=? where idVentas=?;";
             parametro=(PreparedStatement) c.conexionDB.prepareStatement(query);
             parametro.setInt(1,getNofactura());
             parametro.setString(2,getSerie());
             parametro.setString(3,getFechafactura());
             parametro.setInt(4,getIdCliente());
-            parametro.setString(5,getFechaingreso());
-            parametro.setInt(6,getIdVenta());
+            parametro.setInt(5,getIdEmpleado());
+            parametro.setString(6,getFechaingreso());
+            parametro.setInt(7,getIdVenta());
             int ejecutar=parametro.executeUpdate();
             c.cerrar_conexion();
             return ejecutar;
@@ -183,7 +221,7 @@ public class Venta {
         }
     }
     
-    public int eliminar(){        
+    public boolean eliminar(){        
         try {
             c=new Conexion();
             c.abrir_conexion();
@@ -193,11 +231,11 @@ public class Venta {
             parametro.setInt(1,getIdVenta());
             int ejecutar = parametro.executeUpdate();
             c.cerrar_conexion();
-            return ejecutar;
+            return !existe(getIdVenta());
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             c.cerrar_conexion();
-            return 0;
+            return !existe(getIdVenta());
         }
     }
     
@@ -206,19 +244,20 @@ public class Venta {
         c=new Conexion();
         c.abrir_conexion();
         try{
-            Proveedor p = new Proveedor();
             ResultSet res;
             String encabezado []={"ID Venta","No. Factura","Proveedor","Serie","Fecha de la factura", "ID Cliente","ID Empleado","Fecha ingreso"};
             model.setColumnIdentifiers(encabezado);
             res=c.conexionDB.createStatement().executeQuery("Select * from db_empresa.ventas;");
-            String datos[]=new String[7];
+            String datos[]=new String[9];
             while(res.next()){
                 datos[0]=res.getString("idVenta");
                 datos[1]=res.getString("nofactura");
                 datos[2]=res.getString("serie");
                 datos[3]=res.getString("fechafactura");
-                datos[4]=res.getString("idCliente");   
-                datos[5]=res.getString("idEmpleado");
+                datos[7]=res.getString("idCliente");   
+                datos[8]=res.getString("idEmpleado");
+                datos[4]=cliente.nombresPorId(Integer.parseInt(datos[7]));
+                datos[5]=empleado.nombresPorId(Integer.parseInt(datos[8]));
                 datos[6]=res.getString("fechaingreso");                
                 model.addRow(datos);             
             }

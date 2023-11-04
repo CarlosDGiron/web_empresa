@@ -141,7 +141,7 @@ public class Producto {
         return drop;
     }
     
-     public String getId(String des){
+    public String getId(String des){
          String x=null;
          c=new Conexion();
          c.abrir_conexion();

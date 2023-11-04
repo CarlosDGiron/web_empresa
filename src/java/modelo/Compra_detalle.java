@@ -95,6 +95,22 @@ public class Compra_detalle {
             return null;
         }        
     }
+    public boolean existe (int idcompra){
+        try{
+        c= new Conexion();
+        c.abrir_conexion();
+        ResultSet res;
+        String query="SELECT * from db_empresa.compras_detalle where idCompra='"+String.valueOf(idcompra)+"';";
+        res=c.conexionDB.createStatement().executeQuery(query);
+        return res.next();
+        }catch(SQLException ex){
+        System.out.println(ex.getMessage());
+        return false;
+        }
+        finally{
+            c.cerrar_conexion();
+        }        
+    }
     
     public int agregar(){
         try{
@@ -139,7 +155,7 @@ public class Compra_detalle {
         }
     }
     
-    public int eliminar(){        
+    public boolean eliminar(){        
         try {
             c=new Conexion();
             c.abrir_conexion();
@@ -149,12 +165,11 @@ public class Compra_detalle {
             parametro.setInt(1,getIdCompra());
             int ejecutar = parametro.executeUpdate();
             c.cerrar_conexion();
-            return ejecutar;
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             c.cerrar_conexion();
-            return 0;
         }
+        return !existe(getIdCompra());
     }
     
     public DefaultTableModel mostrar(){

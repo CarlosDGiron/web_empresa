@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Compra;
 import modelo.Compra_detalle;
-import modelo.Proveedor;
 import modelo.Usuario;
 
 /**
@@ -55,7 +54,6 @@ public class sr_compras extends HttpServlet {
                     double precio;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
                     Date date = new Date();  
-                    Proveedor p=new Proveedor();
                     Compra e ;
                     Compra_detalle cd =new Compra_detalle();
                     if("Agregar".equals(request.getParameter("btn_agregar"))){
@@ -77,6 +75,9 @@ public class sr_compras extends HttpServlet {
                         }else{
                             out.println("<h1>No se pudo ingresar el registro.</h1>");
                         }
+                        out.println("<a href ='Compras.jsp'>Regresar</a>");
+                        out.println("</body>");
+                        out.println("</html>");
                     }else if("Modificar".equals(request.getParameter("btn_modificar"))){
                         idcompra=Integer.parseInt(request.getParameter("idCompra"));
                         //int idCompra, int no_orden_compra, int idProveedor, String fecha_orden, String fechaingreso
@@ -96,25 +97,28 @@ public class sr_compras extends HttpServlet {
                             out.println("<h1>Registro modificado.</h1>");
                         }else{
                             out.println("<h1>No se pudo modificar el registro.</h1>");
-                        }                
+                        }                        
+                        out.println("<a href ='Compras_Detalles.jsp'>Regresar</a>");
+                        out.println("</body>");
+                        out.println("</html>");
                     }else if("Eliminar".equals(request.getParameter("btn_eliminar"))){
                         e = new Compra();
                         e.setIdCompra(Integer.parseInt(request.getParameter("idCompra")));
                         cd.setIdCompra(Integer.parseInt(request.getParameter("idCompra")));
-                        if (cd.eliminar()>0){
-                            if(e.eliminar()>0){
+                        if (cd.eliminar()){
+                            if(e.eliminar()){
                                 out.println("<h1>Registro eliminado.</h1>");
                             }else{
                                 out.println("<h1>No se pudo eliminar el registro.</h1>");
                             }
                         }else{
                             out.println("<h1>No se pudo eliminar el registro.</h1>");
-                        }               
-                    }
-                    out.println("<a href ='Compras.jsp'>Regresar</a>");
+                        }
+                    out.println("<a href ='Compras_Detalles.jsp'>Regresar</a>");
                     out.println("</body>");
                     out.println("</html>");
                     }
+                }
             }else{
                     out.println("<h1>Usted no tiene permisos.</h1>");
                     out.println("</body>");

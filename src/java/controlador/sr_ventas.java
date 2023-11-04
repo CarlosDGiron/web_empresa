@@ -14,16 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Venta;
 import modelo.Venta_detalle;
-import modelo.Proveedor;
-import modelo.Cliente;
-import modelo.Empleado;
 import modelo.Usuario;
 
 /**
  *
  * @author cana0
  */
-public class sr_venta extends HttpServlet {
+public class sr_ventas extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -57,8 +54,7 @@ public class sr_venta extends HttpServlet {
                     double precio;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
                     Date date = new Date();  
-                    Proveedor proveedor=new Proveedor();
-                    Venta venta ;
+                    Venta venta;
                     Venta_detalle ventadetalle =new Venta_detalle();
                     if("Agregar".equals(request.getParameter("btn_agregar"))){
                         //int idVenta, int nofactura, String serie, String fechafactura, int idCliente, int idEmpleado, String fechaingreso
@@ -80,10 +76,13 @@ public class sr_venta extends HttpServlet {
                         }else{
                             out.println("<h1>No se pudo ingresar el registro.</h1>");
                         }
+                        out.println("<a href ='NuevaVenta.jsp'>Regresar</a>");
+                        out.println("</body>");
+                        out.println("</html>");
                     }else if("Modificar".equals(request.getParameter("btn_modificar"))){
                         idventa=Integer.parseInt(request.getParameter("idVenta"));
                         //int idVenta, int nofactura, String serie, String fechafactura, int idCliente, int idEmpleado, String fechaingreso
-                        venta=new Venta(idventa,Integer.parseInt(request.getParameter("txt_no_factura")),request.getParameter("txt_serie"),request.getParameter("txt_fechafactura"),Integer.parseInt(request.getParameter("drop_cliente")),Integer.parseInt(request.getParameter("drop_empleado")),formatter.format(date));
+                        venta=new Venta(idventa,Integer.parseInt(request.getParameter("txt_no_factura"+String.valueOf(idventa))),request.getParameter("txt_serie"+String.valueOf(idventa)),request.getParameter("txt_fechafactura"+String.valueOf(idventa)),Integer.parseInt(request.getParameter("drop_cliente"+String.valueOf(idventa))),Integer.parseInt(request.getParameter("drop_empleado"+String.valueOf(idventa))),formatter.format(date));
                         if (venta.modificar()==1){
                             int contadordeinserts=0; 
                             for (int i:ventadetalle.idDetallePorIdVenta(idventa)){
@@ -99,25 +98,29 @@ public class sr_venta extends HttpServlet {
                             out.println("<h1>Registro modificado.</h1>");
                         }else{
                             out.println("<h1>No se pudo modificar el registro.</h1>");
-                        }                
+                        }
+                        out.println("<a href ='Ventas_Detalles.jsp'>Regresar</a>");
+                        out.println("</body>");
+                        out.println("</html>");
                     }else if("Eliminar".equals(request.getParameter("btn_eliminar"))){
                         venta = new Venta();
-                        venta.setIdVenta(Integer.parseInt(request.getParameter("idVenta")));
-                        ventadetalle.setIdVenta(Integer.parseInt(request.getParameter("idVenta")));
-                        if (ventadetalle.eliminar()>0){
-                            if(venta.eliminar()>0){
+                        idventa=Integer.parseInt(request.getParameter("idVenta"));
+                        venta.setIdVenta(idventa);
+                        ventadetalle.setIdVenta(idventa);
+                        if (ventadetalle.eliminar()){
+                            if(venta.eliminar()){
                                 out.println("<h1>Registro eliminado.</h1>");
                             }else{
                                 out.println("<h1>No se pudo eliminar el registro.</h1>");
                             }
                         }else{
                             out.println("<h1>No se pudo eliminar el registro.</h1>");
-                        }               
-                    }
-                    out.println("<a href ='Compras.jsp'>Regresar</a>");
-                    out.println("</body>");
-                    out.println("</html>");
-                    }
+                        }
+                        out.println("<a href ='Ventas_Detalles.jsp'>Regresar</a>");
+                        out.println("</body>");
+                        out.println("</html>");
+                    }                    
+                }
             }else{
                     out.println("<h1>Usted no tiene permisos.</h1>");
                     out.println("</body>");

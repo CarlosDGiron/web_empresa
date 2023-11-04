@@ -168,7 +168,7 @@ public class Compra {
         }
     }
     
-    public int eliminar(){        
+    public boolean eliminar(){        
         try {
             c=new Conexion();
             c.abrir_conexion();
@@ -178,12 +178,11 @@ public class Compra {
             parametro.setInt(1,getIdCompra());
             int ejecutar = parametro.executeUpdate();
             c.cerrar_conexion();
-            return ejecutar;
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             c.cerrar_conexion();
-            return 0;
         }
+        return !existe(getIdCompra());
     }
     
     public DefaultTableModel mostrar(){

@@ -71,11 +71,10 @@ public class Venta_detalle {
     
     public int[] idDetallePorIdVenta(int idv_){
         int idetalle[];
-        int aux=0;
         c=new Conexion();
         c.abrir_conexion();
         try{
-            String query="select count(idVenta_detalle) as id from db_empresa.ventas_detalle where idVenta='"+String.valueOf(idv_)+" GROUP BY idVenta_detalle';";
+            String query="SELECT COUNT(idVenta_detalle) AS id FROM db_empresa.ventas_detalle WHERE idVenta='"+String.valueOf(idv_)+" GROUP BY idVenta_detalle';";
             ResultSet count=c.conexionDB.createStatement().executeQuery(query);
             query="select idVenta_detalle as id from db_empresa.ventas_detalle where idVenta='"+String.valueOf(idv_)+"';";
             ResultSet consulta=c.conexionDB.createStatement().executeQuery(query);
@@ -113,6 +112,23 @@ public class Venta_detalle {
         return cant;
     }
     
+    public boolean existe (int idventa){
+        try{
+        c= new Conexion();
+        c.abrir_conexion();
+        ResultSet res;
+        String query="SELECT * from db_empresa.ventas_detalle where idVenta='"+String.valueOf(idventa)+"';";
+        res=c.conexionDB.createStatement().executeQuery(query);
+        return res.next();
+        }catch(SQLException ex){
+        System.out.println(ex.getMessage());
+        return false;
+        }
+        finally{
+            c.cerrar_conexion();
+        }        
+    }
+    
     public int agregar(){
         try{
             PreparedStatement parametro;
@@ -139,7 +155,7 @@ public class Venta_detalle {
             c= new Conexion();
             c.abrir_conexion();
             PreparedStatement parametro;
-            String query="UPDATE db_empresa.ventas_detalle SET idVenta=?, idProducto=?, cantidad=?, precio_unitario=? where idVentas_detalle=?;";
+            String query="UPDATE db_empresa.ventas_detalle SET idVenta=?, idProducto=?, cantidad=?, precio_unitario=? where idVenta_detalle=?;";
             parametro=(PreparedStatement) c.conexionDB.prepareStatement(query);
             parametro.setInt(1,getIdVenta());
             parametro.setInt(2,getIdProducto());
@@ -156,7 +172,7 @@ public class Venta_detalle {
         }
     }
     
-    public int eliminar(){        
+    public boolean eliminar(){        
         try {
             c=new Conexion();
             c.abrir_conexion();
@@ -166,11 +182,11 @@ public class Venta_detalle {
             parametro.setInt(1,getIdVenta());
             int ejecutar = parametro.executeUpdate();
             c.cerrar_conexion();
-            return ejecutar;
+            return !existe(getIdVenta());
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             c.cerrar_conexion();
-            return 0;
+            return !existe(getIdVenta());
         }
     }
     
@@ -210,7 +226,7 @@ public class Venta_detalle {
             ResultSet res;
             String encabezado []={"ID Venta Detalle","ID Venta","Producto","Cantidad","Precio unitario","ID Producto"};
             model.setColumnIdentifiers(encabezado);
-            res=c.conexionDB.createStatement().executeQuery("Select * from db_empresa.vents_detalle WHERE idVenta="+idVenta_+";");
+            res=c.conexionDB.createStatement().executeQuery("Select * from db_empresa.ventas_detalle WHERE idVenta="+idVenta_+";");
             String datos[]=new String[8];
             while(res.next()){
                 datos[0]=res.getString("idVenta_detalle");

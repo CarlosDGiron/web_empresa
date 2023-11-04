@@ -194,4 +194,21 @@ public class Empleado extends Persona {
         c.cerrar_conexion();
         return drop;
     }
+    
+    public String nombresPorId(int id){
+        String x=null;  
+        c=new Conexion();
+        c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("SELECT CONCAT(nombres,\" \",apellidos) AS empleado FROM db_empresa.empleados WHERE idEmpleado="+id+";");
+            res.next();
+            x=res.getString("empleado");
+        }catch(SQLException ex){
+            System.out.println("Eror Des:"+ex.getMessage());
+        }
+        c.cerrar_conexion();
+        return x;
+    }
+
 }

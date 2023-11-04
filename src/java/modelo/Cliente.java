@@ -158,4 +158,20 @@ public class Cliente extends Persona{
         c.cerrar_conexion();
         return drop;
     }
-}
+      
+    public String nombresPorId(int id){
+        String x=null;  
+        c=new Conexion();
+        c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("SELECT CONCAT(nombres,\" \",apellidos) AS cliente FROM db_empresa.clientes WHERE idCliente="+id+";");
+            res.next();
+            x=res.getString("cliente");
+        }catch(SQLException ex){
+            System.out.println("Eror Des:"+ex.getMessage());
+        }
+        c.cerrar_conexion();
+        return x;
+    }
+ }

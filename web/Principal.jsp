@@ -21,9 +21,9 @@
         if(idUsuario!=0){
             Usuario u=new Usuario();
             if(u.tienePermisoId(idUsuario, 1)){
-                out.println("<h2><a href=Productos.jsp'>Productos</a></h2>");
+                out.println("<h2><a href='Productos.jsp'>Productos</a></h2>");
                 out.println("<h2><a href='Marcas.jsp'>Marcas</a></h2>");
-                out.println("<h2><a href='Ventas_Detalles.jsp'>Ventas</a></h2>");
+                out.println("<h2><a href='Ventas.jsp'>Ventas</a></h2>");
                 out.println("<h2><a href='Clientes.jsp'>Clientes</a></h2>");
                 out.println("<h2><a href='Empleados.jsp'>Empleados</a></h2>");
                 out.println("<h2><a href='Puestos.jsp'>Puestos</a></h2>");

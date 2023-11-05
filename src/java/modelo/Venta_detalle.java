@@ -79,7 +79,6 @@ public class Venta_detalle {
             query="select idVenta_detalle as id from db_empresa.ventas_detalle where idVenta='"+String.valueOf(idv_)+"';";
             ResultSet consulta=c.conexionDB.createStatement().executeQuery(query);
             count.next();
-            System.out.println(count.getInt("id"));
             idetalle = new int[count.getInt("id")];
             int i=0;
             while(consulta.next()){
@@ -155,12 +154,12 @@ public class Venta_detalle {
             c= new Conexion();
             c.abrir_conexion();
             PreparedStatement parametro;
-            String query="UPDATE db_empresa.ventas_detalle SET idVenta=?, idProducto=?, cantidad=?, precio_unitario=? where idVenta_detalle=?;";
+            String query="UPDATE db_empresa.ventas_detalle SET idVenta=?, idProducto=?, precio_unitario=? where idVenta_detalle=?;";
             parametro=(PreparedStatement) c.conexionDB.prepareStatement(query);
             parametro.setInt(1,getIdVenta());
             parametro.setInt(2,getIdProducto());
-            parametro.setInt(3,getCantidad());
-            parametro.setDouble(4,getPrecio_unitario());
+            //parametro.setInt(3,getCantidad());
+            parametro.setDouble(3,getPrecio_unitario());
             parametro.setInt(5,getIdVenta_detalle());
             int ejecutar=parametro.executeUpdate();
             c.cerrar_conexion();

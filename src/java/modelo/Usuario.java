@@ -123,7 +123,7 @@ public class Usuario {
     }
     
     public boolean tienePermisoId(int idUsuario,int idPermiso){
-        //vaslidar en DB si el usuario tiene permiso para un id de pagina
+        //validar en DB si el usuario tiene permiso para un id de pagina
         try{
             c= new Conexion();
             c.abrir_conexion();

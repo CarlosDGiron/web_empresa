@@ -50,20 +50,19 @@ public class sr_producto extends HttpServlet {
                 if(u.tienePermisoId(idUsuario, 1)){
                     //Permisos adecuados
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
-                    Date date = new Date();  
-                    System.out.println(formatter.format(date));  
-                    Producto e = new Producto(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_producto"),Integer.parseInt(request.getParameter("drop_marca")),request.getParameter("txt_descripcion"),request.getParameter("imagen"),Double.parseDouble(request.getParameter("txt_precio_costo")),Double.parseDouble(request.getParameter("txt_precio_venta")),Integer.parseInt(request.getParameter("txt_existencia")),formatter.format(date));
+                    Date date = new Date(); 
+                    Producto e = new Producto(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_producto"),Integer.parseInt(request.getParameter("drop_marca")),request.getParameter("txt_descripcion"),request.getParameter("txt_imagen"),Double.parseDouble(request.getParameter("txt_precio_costo")),Double.parseDouble(request.getParameter("txt_precio_venta")),Integer.parseInt(request.getParameter("txt_existencia")),formatter.format(date));
                     if("Agregar".equals(request.getParameter("btn_agregar"))){
                         if (e.agregar()==1){
-                        out.println("<h1>Ingreso exitoso.</h1>");
+                            out.println("<h1>Ingreso exitoso.</h1>");
                         }else{
                         out.println("<h1>No se pudo ingresar el registro.</h1>");
                         }
                     }else if("Modificar".equals(request.getParameter("btn_modificar"))){
                         if (e.modificar()==1){
-                        out.println("<h1>Registro modificado.</h1>");
+                            out.println("<h1>Registro modificado.</h1>");
                         }else{
-                        out.println("<h1>No se pudo modificar el registro.</h1>");
+                            out.println("<h1>No se pudo modificar el registro.</h1>");
                         }                
                     }else if("Eliminar".equals(request.getParameter("btn_eliminar"))){
                         if (e.eliminar()==1){
@@ -72,14 +71,14 @@ public class sr_producto extends HttpServlet {
                         out.println("<h1>No se pudo eliminar el registro.</h1>");
                         }               
                     }            
-                    out.println("<a href ='Clientes.jsp'>Regresar</a>");
+                    out.println("<a href ='Productos.jsp'>Regresar</a>");
                     out.println("</body>");
-                    out.println("</html>");
-                    }
-            }else{
+                    out.println("</html>");                            
+                }else{
                     out.println("<h1>Usted no tiene permisos.</h1>");
                     out.println("</body>");
                     out.println("</html>");
+                }                    
             }
         }
     }

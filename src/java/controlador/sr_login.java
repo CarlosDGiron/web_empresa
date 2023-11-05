@@ -53,6 +53,7 @@ public class sr_login extends HttpServlet {
                 //response.sendRedirect("index.jsp");}
                 u.setUsuario(usuario);
                 hsesion.setAttribute("nombre",u.getNombre( usuario));
+                System.out.println(hsesion.getAttribute("nombre"));
                 u.cargarIds();
                 hsesion.setAttribute("idUsuario", u.getIdUsuario());
                 hsesion.setAttribute("usuario", u.getUsuario());

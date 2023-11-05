@@ -107,6 +107,23 @@ public class Producto {
         this.precio_venta = precio_venta;
     }
     
+     public int getMaxId(){
+         int x;
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("SELECT MAX(idProducto) as id FROM db_empresa.productos;");
+            res.next();
+            x=res.getInt("id");
+            c.cerrar_conexion();
+            return x;
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+            return 0;
+        }
+    }
+    
     public HashMap drop_productoprecio(){
         HashMap<String,String> drop=new HashMap();
         c=new Conexion();
@@ -179,7 +196,7 @@ public class Producto {
             c=new Conexion();
             c.abrir_conexion();
             //idProducto, producto,idMarca,descripcion,imagen,precio_costo,precio_venta,existencia,fecha_ingreso
-            String query="INSERT INTO db_empresa.productos(producto, idMarca, descripcion, imagen, precio_costo, precio_venta, existencia, fechaingreso) VALUES(?,?,?,?,?,?,?);";
+            String query="INSERT INTO db_empresa.productos(producto, idMarca, descripcion, imagen, precio_costo, precio_venta, existencia, fechaingreso) VALUES(?,?,?,?,?,?,?,?);";
             parametro=(PreparedStatement) c.conexionDB.prepareStatement(query);
             parametro.setString(1,getProducto());
             parametro.setInt(2,getIdMarca());

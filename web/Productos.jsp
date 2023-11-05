@@ -55,7 +55,7 @@
 
                 <label for="lbl_imagen" >Imagen:</label>
                 <!--select imagen desde-->
-                <input type="text" name="txt_imagen" id="txt_imagen" class="form-control" placeholder="Ejemplo: archivo.extensión" required>
+                <input type="text" name="txt_imagen" id="txt_imagen" class="form-control" placeholder="https://wwww.imgurl.com/image.jpg" required>
 
                 <label for="lbl_precio_costo" >Precio costo:</label>
                 <input type="number" name="txt_precio_costo" id="txt_precio_costo" class="form-control" placeholder="Ejemplo: 12345678" required>
@@ -93,7 +93,7 @@
                                 out.println("<td>"+model.getValueAt(t,1)+"</td>");
                                 out.println("<td>"+model.getValueAt(t,2)+"</td>");
                                 out.println("<td>"+model.getValueAt(t,3)+"</td>");
-                                out.println("<td>"+model.getValueAt(t,4)+"</td>");
+                                out.println("<td><img style=\"max-width: 75px; height: 75px; \" src=\""+model.getValueAt(t,4)+"\" alt=\""+model.getValueAt(t, 4)+"\"</td>");
                                 out.println("<td>"+model.getValueAt(t,5)+"</td>");
                                 out.println("<td>"+model.getValueAt(t,6)+"</td>");
                                 out.println("<td>"+model.getValueAt(t,7)+"</td>"); 
@@ -115,7 +115,7 @@
                 idmarca=target.parent().data('idm');
                 producto=target.parent("tr").find("td").eq(0).html();
                 descripcion=target.parent("tr").find("td").eq(2).html();
-                imagen=target.parent("tr").find("td").eq(3).html();
+                imagen=target.parent("tr").find("td").eq(3).find("img").attr("src");
                 precio_costo=target.parent("tr").find("td").eq(4).html();
                 precio_venta=target.parent("tr").find("td").eq(5).html();
                 existencia=target.parent("tr").find("td").eq(6).html();
@@ -123,8 +123,8 @@
                 $("#txt_id").val(idproducto);
                 $("#txt_producto").val(producto);
                 $("#drop_marca").val(idmarca);
-                $("#txt_descripcion").val(descripcion);
-                $("#txt_imagen").val(imagen);            
+                $("#txt_imagen").val(imagen);
+                $("#txt_descripcion").val(descripcion);      
                 $("#txt_precio_costo").val(precio_costo);
                 $("#txt_precio_venta").val(precio_venta);      
                 $("#txt_existencia").val(existencia);      

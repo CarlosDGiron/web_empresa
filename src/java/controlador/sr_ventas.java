@@ -86,7 +86,7 @@ public class sr_ventas extends HttpServlet {
                         if (venta.modificar()==1){
                             int contadordeinserts=0; 
                             for (int i:ventadetalle.idDetallePorIdVenta(idventa)){
-                                System.out.println(i);
+                                System.out.println("IdVentaDetalle"+i);
                                 idproducto=Integer.parseInt(request.getParameter("drop_producto"+String.valueOf(i)));
                                 cantidad=Integer.parseInt(request.getParameter("cantidad"+String.valueOf(i)));
                                 precio=Double.parseDouble(request.getParameter("precio"+String.valueOf(i)));

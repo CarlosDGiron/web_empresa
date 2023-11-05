@@ -202,7 +202,7 @@ public class Venta {
             c= new Conexion();
             c.abrir_conexion();
             PreparedStatement parametro;
-            String query="UPDATE db_empresa.ventas SET nofactura=?, serie=?, fechafactura=?, idCliente=?, idEmpleado=?, fechaingreso=? where idVentas=?;";
+            String query="UPDATE db_empresa.ventas SET nofactura=?, serie=?, fechafactura=?, idCliente=?, idEmpleado=?, fechaingreso=? where idVenta=?;";
             parametro=(PreparedStatement) c.conexionDB.prepareStatement(query);
             parametro.setInt(1,getNofactura());
             parametro.setString(2,getSerie());

@@ -85,17 +85,12 @@ public class sr_compras extends HttpServlet {
                         if (e.modificar()==1){
                             int contadordeinserts=0; 
                             for (int i:cd.idDetallePorIdCompra(idcompra)){
-                                cd.setIdCompra_detalle(i);
-                                cd.setIdCompra(idcompra);
-                                cd.setIdProducto(Integer.parseInt(request.getParameter("drop_producto"+String.valueOf(i))));
-                                cd.setCantidad(Integer.parseInt(request.getParameter("cantidad"+String.valueOf(i))));
-                                cd.setPrecio_costo_unitario(Double.parseDouble(request.getParameter("precio"+String.valueOf(i))));
-                                //cd=new Compra_detalle(i,idcompra,idproducto,cantidad,precio);
+                                idproducto=Integer.parseInt(request.getParameter("drop_producto"+String.valueOf(i)));
+                                cantidad=Integer.parseInt(request.getParameter("cantidad"+String.valueOf(i)));
+                                precio=Double.parseDouble(request.getParameter("precio"+String.valueOf(i)));
+                                cd=new Compra_detalle(i,idcompra,idproducto,cantidad,precio);
                                 if(cd.modificar()>0){
                                     contadordeinserts++;
-                                }else{
-                                    out.println("<h1>No se pudo modificar el registro.</h1>");
-                                    break;
                                 }
                             }
                             out.println("<h1>Registro modificado.</h1>");

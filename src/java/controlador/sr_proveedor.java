@@ -72,7 +72,7 @@ public class sr_proveedor extends HttpServlet {
                         out.println("<h1>No se pudo eliminar el registro.</h1>");
                         }               
                     }            
-                    out.println("<a href ='Clientes.jsp'>Regresar</a>");
+                    out.println("<a href ='Proveedores.jsp'>Regresar</a>");
                     out.println("</body>");
                     out.println("</html>");
                     }

@@ -26,12 +26,13 @@
                             <h2>Iniciar sesion.</h2>
                             <br><input type="text" name="txt_usuario" id="txt_usuario" class="form-control"placeholder="Ingrese su usuario">
                             <br><input type="password" name="txt_password" id="txt_password" class="form-control" placeholder="Ingrese su contraseña">
-                            <br><button class="btn btn-primary" name="btn_login" id="btn_login" value="login">Ingresar</button>
-                            
+                            <br><button class="btn btn-primary" name="accion" id="accion" value="Login">Ingresar</button>
                             <%
-                            if (request.getParameter("login")!=null){
+                            if (request.getParameter("login")=="error"){
                                 out.println("<br><h6 style='color: red;'>Error, contraseña incorrecta.</h6>");
-                            }
+                            }else if(request.getParameter("login")=="logout"){
+                                out.println("<br><h6 style='color: red;'>Se ha cerrado la sesión.</h6>");
+                                }
                             %>
                         </div>
                 </div>

@@ -95,7 +95,7 @@ public class Proveedor {
             c= new Conexion();
             c.abrir_conexion();
             PreparedStatement parametro;
-            String query="UPDATE db_empresa.proveedores SET proveedor=?, nit=?, direccion=?, telefono=?, where idProveedor=?;";
+            String query="UPDATE db_empresa.proveedores SET proveedor=?, nit=?, direccion=?, telefono=? where idProveedor=?;";
             parametro=(PreparedStatement) c.conexionDB.prepareStatement(query);
             parametro.setString(1,getProveedor());
             parametro.setString(2,getNit());

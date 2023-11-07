@@ -4,22 +4,29 @@
  */
 package controlador;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;  
-import java.util.Date;  
-import modelo.Empleado;
 import modelo.Usuario;
+import modelo.Producto;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JsonDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author cana0
  */
-public class sr_empleado extends HttpServlet {
+public class sr_reportes extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,38 +56,15 @@ public class sr_empleado extends HttpServlet {
                 Usuario u=new Usuario();
                 if(u.tienePermisoId(idUsuario, 1)){
                     //Permisos adecuados
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
-                    Date date = new Date();  
-                    System.out.println(formatter.format(date));  
-                    //Empleado(int id, String nombres, String apellidos, String direccion, String telefono, String dpi, boolean genero, String fecha_nacimiento, String fechaingreso,int puesto,String fecha_inicio_labores)
-                    Empleado e = new Empleado(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),request.getParameter("txt_dpi"),request.getParameter("drop_genero").equals("M"),request.getParameter("txt_nacimiento"),Integer.parseInt(request.getParameter("drop_puesto")),request.getParameter("txt_finicio"),formatter.format(date));
-                    String accion=request.getParameter("accion");
-                    switch (accion) {
-                        case "Agregar":
-                            if (e.agregar()==1){
-                                out.println("<h1>Ingreso exitoso.</h1>");
-                            }else{
-                                out.println("<h1>No se pudo ingresar el registro.</h1>");
-                            }   break;
-                        case "Modificar":
-                            if (e.modificar()==1){
-                                out.println("<h1>Registro modificado.</h1>");
-                            }else{
-                                out.println("<h1>No se pudo modificar el registro.</h1>");
-                            }   break;
-                        case "Eliminar":
-                            if (e.eliminar()==1){
-                                out.println("<h1>Registro eliminado.</h1>");
-                            }else{
-                                out.println("<h1>No se pudo eliminar el registro.</h1>");
-                            }   break;
-                        case "Puestos":
-                            response.sendRedirect("Puestos.jsp");
-                            break;
-                        default:
-                            break;
-                    }
-                    out.println("<a href ='Empleados.jsp'>Regresar</a>");
+                   
+                    if("Productos".equals(request.getParameter("btn_productos"))){
+                        reporteProductos();
+                    }else if("Modificar".equals(request.getParameter("btn_modificar"))){
+                        
+                    }else if("Eliminar".equals(request.getParameter("btn_eliminar"))){
+                        
+                    }            
+                    out.println("<a href ='Reportes.jsp'>Regresar</a>");
                     out.println("</body>");
                     out.println("</html>");
                     }
@@ -92,6 +76,33 @@ public class sr_empleado extends HttpServlet {
         }                
     }
     
+    protected void reporteProductos(){
+        Producto producto=new Producto();
+        producto.jsonReporte();
+        /* try {
+            // Cargar la plantilla JRXML
+            JasperReport report = (JasperReport) JRLoader.loadObjectFromFile("C:\\Users\\cana0\\JaspersoftWorkspace\\MyReports\\Reporte_Productos.jasper");
+
+            // Crear un JsonObject con tus datos
+            String json = producto.jsonReporte();
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("json", json);
+
+            // Crear un JsonDataSource
+            ByteArrayInputStream jsonData = new ByteArrayInputStream(json.getBytes("UTF-8"));
+            JsonDataSource dataSource = new JsonDataSource(jsonData, "data");
+
+            // Generar el informe
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataSource);
+
+            // Mostrar el informe en una ventana de visualización
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+    }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -130,4 +141,5 @@ public class sr_empleado extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

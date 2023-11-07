@@ -80,6 +80,7 @@ public class Compra_detalle {
             query="select idCompra_detalle as id from db_empresa.compras_detalle where idCompra='"+String.valueOf(idc_)+"';";
             ResultSet consulta=c.conexionDB.createStatement().executeQuery(query);
             count.next();
+            System.out.println(count.getInt("id"));
             idetalle = new int[count.getInt("id")];
             int i=0;
             while(consulta.next()){
@@ -137,18 +138,18 @@ public class Compra_detalle {
             c= new Conexion();
             c.abrir_conexion();
             PreparedStatement parametro;
-            String query = "UPDATE `db_empresa`.`compras_detalle` SET `idCompra` = ?, `idProducto` = ?, `precio_costo_unitario` = ? WHERE `idCompra_detalle` = ?;";
-            parametro=c.conexionDB.prepareStatement(query);
-            System.out.println(idCompra_detalle+"-"+idCompra+"-"+idProducto+"-"+cantidad+precio_costo_unitario);
+            String query="UPDATE db_empresa.compras_detalle SET idCompra=?, idProducto=?, cantidad=?, precio_costo_unitario=? where idCompra_detalle=?;";
+            parametro=(PreparedStatement) c.conexionDB.prepareStatement(query);
             parametro.setInt(1,getIdCompra());
             parametro.setInt(2,getIdProducto());
-            parametro.setDouble(3,getPrecio_costo_unitario());
-            parametro.setInt(4,getIdCompra_detalle());
+            parametro.setInt(3,getCantidad());
+            parametro.setDouble(4,getPrecio_costo_unitario());
+            parametro.setInt(5,getIdCompra_detalle());
             int ejecutar=parametro.executeUpdate();
             c.cerrar_conexion();
             return ejecutar;
         } catch (SQLException ex) {
-            System.out.println("Error:"+ex.getMessage());
+            System.out.println(ex.getMessage());
             c.cerrar_conexion();
             return 0;
         }

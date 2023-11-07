@@ -40,27 +40,33 @@ public class sr_puesto extends HttpServlet {
                 Usuario u=new Usuario();
                 if(u.tienePermisoId(idUsuario, 1)){
                     //Permisos adecuados 
-                    //Empleado(int id, String nombres, String apellidos, String direccion, String telefono, String dpi, boolean genero, String fecha_nacimiento, String fechaingreso,int puesto,String fecha_inicio_labores)
                     Puesto p = new Puesto(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_puesto"));
-                    if("Agregar".equals(request.getParameter("btn_agregar"))){
-                        if (p.agregar()==1){
-                        out.println("<h1>Ingreso exitoso.</h1>");
-                        }else{
-                        out.println("<h1>No se pudo ingresar el registro.</h1>");
-                        }
-                    }else if("Modificar".equals(request.getParameter("btn_modificar"))){
-                        if (p.modificar()==1){
-                        out.println("<h1>Registro modificado.</h1>");
-                        }else{
-                        out.println("<h1>No se pudo modificar el registro.</h1>");
-                        }                
-                    }else if("Eliminar".equals(request.getParameter("btn_eliminar"))){
-                        if (p.eliminar()==1){
-                        out.println("<h1>Registro eliminado.</h1>");
-                        }else{
-                        out.println("<h1>No se pudo eliminar el registro.</h1>");
-                        }               
-                    }            
+                    String accion=request.getParameter("accion");
+                    switch (accion) {
+                        case "Agregar":
+                            if (p.agregar()==1){
+                                out.println("<h1>Ingreso exitoso.</h1>");
+                            }else{
+                                out.println("<h1>No se pudo ingresar el registro.</h1>");
+                            }   break;
+                        case "Modificar":
+                            if (p.modificar()==1){
+                                out.println("<h1>Registro modificado.</h1>");
+                            }else{
+                                out.println("<h1>No se pudo modificar el registro.</h1>");
+                            }   break;
+                        case "Eliminar":
+                            if (p.eliminar()==1){
+                                out.println("<h1>Registro eliminado.</h1>");
+                            }else{
+                                out.println("<h1>No se pudo eliminar el registro.</h1>");
+                            }   break;
+                        case "Empleados":
+                            response.sendRedirect("Empleados.jsp");
+                            break;
+                        default:
+                            break;
+                    }
                     out.println("<a href ='Puestos.jsp'>Regresar</a>");
                     out.println("</body>");
                     out.println("</html>");

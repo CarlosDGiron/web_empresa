@@ -4,11 +4,17 @@
  */
 package modelo;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -16,9 +22,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Producto {
     private int idProducto , idMarca,existencia;
-    private String producto, descripcion,imagen,fechaingreso;
+    private String producto, descripcion,imagen,fechaingreso,marca;
     private double precio_costo,precio_venta;
     private Conexion c;
+    private Marca m;
     
     public Producto() {
     }
@@ -33,6 +40,8 @@ public class Producto {
         this.fechaingreso = fechaingreso;
         this.precio_costo = precio_costo;
         this.precio_venta = precio_venta;
+        m=new Marca();
+        this.marca=m.getDes(String.valueOf(idMarca));
     }
 
     public int getIdProducto() {
@@ -89,6 +98,14 @@ public class Producto {
 
     public void setFechaingreso(String fechaingreso) {
         this.fechaingreso = fechaingreso;
+    }
+    
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
 
     public double getPrecio_costo() {
@@ -157,6 +174,22 @@ public class Producto {
         c.cerrar_conexion();
         return drop;
     }
+    
+    public int maxVenta(int id){
+        int x=0;
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("Select existencia from db_empresa.productos where idProducto="+id+";");
+            res.next();
+            x=res.getInt("existencia");
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+        }
+        c.cerrar_conexion();
+        return x;
+    }    
     
     public String getId(String des){
          String x=null;
@@ -291,4 +324,33 @@ public class Producto {
         c.cerrar_conexion();
         return model;
     }
+    
+    public  String jsonReporte() {
+        DefaultTableModel model;
+        model=this.mostrar();
+        JsonObject json = new JsonObject();
+        for (int row = 0; row < model.getRowCount(); row++) {
+            JsonObject rowObject = new JsonObject();
+
+            // Recorrer las columnas y agregar cada valor al objeto JSON de fila
+            for (int col = 0; col < model.getColumnCount(); col++) {
+                String columnName = model.getColumnName(col);
+                Object cellValue = model.getValueAt(row, col);
+                rowObject.addProperty(columnName, cellValue.toString());
+            }
+            // Agregar el objeto de fila al JSON principal
+            json.add("row" + (row + 1), rowObject);
+        }
+        System.out.println(json);
+        return json.toString();
+
+        /* Usar Gson para escribir el JSON en un archivo
+        try (FileWriter writer = new FileWriter("C:\\Productos.json")) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            gson.toJson(json, writer);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }*/
+    }    
 }

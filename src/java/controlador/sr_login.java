@@ -5,7 +5,6 @@
 package controlador;
 
 import java.io.IOException;
-//import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,40 +31,33 @@ public class sr_login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            //response.setContentType("text/html;charset=UTF-8");
-            
-        //try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            
-            /*out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet sr_empleado</title>");            
-            out.println("</head>");
-            out.println("<body>");*/
-            HttpSession hsesion=request.getSession();
-            
-            Usuario u=new Usuario();
-            
-            String usuario=request.getParameter("txt_usuario");
-            String pass=request.getParameter("txt_password");
-            if(u.esValido(usuario, pass)){
-                //response.sendRedirect("index.jsp");}
-                u.setUsuario(usuario);
-                hsesion.setAttribute("nombre",u.getNombre( usuario));
-                System.out.println(hsesion.getAttribute("nombre"));
-                u.cargarIds();
-                hsesion.setAttribute("idUsuario", u.getIdUsuario());
-                hsesion.setAttribute("usuario", u.getUsuario());
-                hsesion.setAttribute("idEmpleado", u.getIdEmpleado());
-                response.sendRedirect("Principal.jsp");
-            }else{
-                response.sendRedirect("index.jsp?login=error");
-            }
-            /*out.println("<a href ='index.jsp'>Regresar</a>");
-            out.println("</body>");
-            out.println("</html>");*/
-        //}
+        String accion = request.getParameter("accion");
+        switch (accion) {
+            case "Login":
+                HttpSession hsesion = request.getSession();
+                Usuario u = new Usuario();
+                String usuario = request.getParameter("txt_usuario");
+                String pass = request.getParameter("txt_password");
+                if (u.esValido(usuario, pass)) {
+                    u.setUsuario(usuario);
+                    hsesion.setAttribute("nombre", u.getNombre(usuario));
+                    System.out.println(hsesion.getAttribute("nombre"));
+                    u.cargarIds();
+                    hsesion.setAttribute("idUsuario", u.getIdUsuario());
+                    hsesion.setAttribute("usuario", u.getUsuario());
+                    hsesion.setAttribute("idEmpleado", u.getIdEmpleado());
+                    response.sendRedirect("Principal.jsp");
+                } else {
+                    response.sendRedirect("index.jsp?login=error");
+                }
+                System.out.println("Login");
+                break;
+            case "Logout":
+                request.getSession().invalidate();
+                response.sendRedirect("index.jsp?login=logout");
+                System.out.println("Logout");
+                break;
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

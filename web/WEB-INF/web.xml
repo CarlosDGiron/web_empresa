@@ -32,6 +32,10 @@
         <servlet-name>sr_ventas</servlet-name>
         <servlet-class>controlador.sr_ventas</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>sr_reportes</servlet-name>
+        <servlet-class>controlador.sr_reportes</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>sr_empleado</servlet-name>
         <url-pattern>/sr_empleado</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>sr_ventas</servlet-name>
         <url-pattern>/sr_ventas</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sr_reportes</servlet-name>
+        <url-pattern>/sr_reportes</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

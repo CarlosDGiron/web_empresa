@@ -151,7 +151,74 @@ public class Venta {
             return null;
         }        
     }
+        
+    public char seriePorId(int id){
+         char x=' ';
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("SELECT serie FROM db_empresa.ventas WHERE idVenta="+String.valueOf(id)+";");
+            res.next();
+            x=res.getString("serie").charAt(0);
+            c.cerrar_conexion();
+            return x;
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+            return x;
+        }
+    }
+      public String fechafacturaPorId(int id){
+         String x;
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("SELECT fechafactura FROM db_empresa.ventas WHERE idVenta="+String.valueOf(id)+";");
+            res.next();
+            x=res.getString("fechafactura");
+            c.cerrar_conexion();
+            return x;
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+            return null;
+        }
+    }
+      
+    public int idClientePorId(int id){
+         int x=0;
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("SELECT idCliente FROM db_empresa.ventas WHERE idVenta="+String.valueOf(id)+";");
+            res.next();
+            x=res.getInt("idCliente");
+            c.cerrar_conexion();
+            return x;
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+            return x;
+        }
+    }  
     
+    public int idEmpleadoPorId(int id){
+         int x=0;
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("SELECT idEmpleado FROM db_empresa.ventas WHERE idVenta="+String.valueOf(id)+";");
+            res.next();
+            x=res.getInt("idEmpleado");
+            c.cerrar_conexion();
+            return x;
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+            return x;
+        }
+    }  
+      
     public boolean existe (int idventa){
         try{
         c= new Conexion();

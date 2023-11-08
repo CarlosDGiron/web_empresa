@@ -108,20 +108,20 @@
                             <div class="row">
                                 <div class="col">
                                     <label for="lbl_no_orden" >No. Factura:</label>
-                                    <input type="number" name="txt_no_factura<%out.print(i);%>" id="txt_no_factura<%out.print(i);%>" class="form-control"  value="<%out.print(modelventa.getValueAt(i - 1, 1));%>" required>
+                                    <input type="number" name="txt_no_factura<%out.print(i);%>" id="txt_no_factura<%out.print(i);%>" class="form-control"  value="<%out.print(venta.facturaPorId(i));%>" required>
                                 </div><div class="col">
                                     <label for="lbl_serie" >Serie:</label>
-                                    <input type="text" name="txt_serie<%out.print(i);%>" id="txt_serie<%out.print(i);%>" class="form-control"  oninput="limitarSerie(this)" value="<%out.print(modelventa.getValueAt(i - 1, 2));%>" required>
+                                    <input type="text" name="txt_serie<%out.print(i);%>" id="txt_serie<%out.print(i);%>" class="form-control"  oninput="limitarSerie(this)" value="<%out.print(venta.seriePorId(i));%>" required>
                                 </div><div class="col">
                                     <label for="lbl_fechafactura" >Fecha de la factura:</label>
-                                    <input type="date" name="txt_fechafactura<%out.print(i);%>" id="txt_fechafactura<%out.print(i);%>" class="form-control" value="<%out.print(modelventa.getValueAt(i - 1, 3));%>" required>
+                                    <input type="date" name="txt_fechafactura<%out.print(i);%>" id="txt_fechafactura<%out.print(i);%>" class="form-control" value="<%out.print(venta.fechafacturaPorId(i));%>" required>
                                 </div><div class="col">
                                     <label for="lbl_cliente" >Cliente:</label>
                                     <select name="drop_cliente<%out.print(i);%>" id="drop_cliente<%out.print(i);%>" class="form-control">
                                         <% Cliente cliente = new Cliente();
                                             drop = cliente.drop_cliente();
                                             for (String jk : drop.keySet()) {
-                                                if (jk.equals(modelventa.getValueAt(i - 1, 4))) {
+                                                if (jk.equals(venta.idClientePorId(i))) {
                                                     out.println("<option value='" + jk + "' selected>" + drop.get(jk) + "</option>");
                                                 } else {
                                                     out.println("<option value='" + jk + "'>" + drop.get(jk) + "</option>");
@@ -134,7 +134,7 @@
                                         <% Empleado empleado = new Empleado();
                                             drop = empleado.drop_empleado();
                                             for (String jk : drop.keySet()) {
-                                                if (jk.equals(modelventa.getValueAt(i - 1, 5))) {
+                                                if (jk.equals(venta.idEmpleadoPorId(i))) {
                                                     out.println("<option value='" + jk + "' selected>" + drop.get(jk) + "</option>");
                                                 } else {
                                                     out.println("<option value='" + jk + "'>" + drop.get(jk) + "</option>");

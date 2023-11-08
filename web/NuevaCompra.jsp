@@ -128,13 +128,13 @@
             //obtenemos los datos
             var combo = document.getElementById("drop_producto");
             var idproducto = combo.value;
-            var producto = combo.options[idproducto - 1].text;
+            var producto = combo.options[combo.selectedIndex].text;
             var cantidad = document.getElementById("txt_cantidad").value;
             var precio = document.getElementById("txt_precio").value;
             var table = document.getElementById("tbl_compra_detalle");
             //agregamos las filas a la tabla
             var row = table.insertRow();
-            row.setAttribute('data-idProducto', idproducto);
+            row.setAttribute('data-idProducto', combo.value);
             var c1 = row.insertCell(0);
             var c2 = row.insertCell(1);
             var c3 = row.insertCell(2);

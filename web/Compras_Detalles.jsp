@@ -97,14 +97,14 @@
                             <div class="row">
                                 <div class="col">
                                     <label for="lbl_no_orden" >No. Orden:</label>
-                                    <input type="number" name="txt_no_orden<%out.print(i);%>" id="txt_no_orden<%out.print(i);%>" class="form-control"  value="<%out.print(model.getValueAt(i - 1, 1));%>" required>
+                                    <input type="number" name="txt_no_orden<%out.print(i);%>" id="txt_no_orden<%out.print(i);%>" class="form-control"  value="<%out.print(c.ordenPorId(i));%>" required>
                                 </div><div class="col">
                                     <label for="lbl_proveedor" >Proveedor:</label>
                                     <select name="drop_proveedor<%out.print(i);%>" id="drop_proveedor<%out.print(i);%>" class="form-control">
                                         <% m = new Proveedor();
                                             drop = m.drop_proveedor();
                                             for (String jk : drop.keySet()) {
-                                                if (jk.equals(model.getValueAt(i - 1, 5))) {
+                                                if (jk.equals(c.idProvedorPorId(i))) {
                                                     out.println("<option value='" + jk + "' selected>" + drop.get(jk) + "</option>");
                                                 } else {
                                                     out.println("<option value='" + jk + "'>" + drop.get(jk) + "</option>");
@@ -113,7 +113,7 @@
                                     </select>
                                 </div><div class="col">
                                     <label for="lbl_fecha_orden" >Fecha de la orden:</label>
-                                    <input type="date" name="txt_fecha_orden<%out.print(i);%>" id="txt_fecha_orden<%out.print(i);%>" class="form-control" value="<%out.print(model.getValueAt(i - 1, 3));%>" required>
+                                    <input type="date" name="txt_fecha_orden<%out.print(i);%>" id="txt_fecha_orden<%out.print(i);%>" class="form-control" value="<%out.print(c.fechaOrdenPorId(i));%>" required>
                                 </div>
                             </div>
                             <br>

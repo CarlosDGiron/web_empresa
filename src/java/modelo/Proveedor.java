@@ -74,7 +74,7 @@ public class Proveedor {
             PreparedStatement parametro;
             c=new Conexion();
             c.abrir_conexion();
-            String query="INSERT INTO db_empresa.proveedores(proveedor,nit,dirección,telefono) VALUES(?,?,?,?);";
+            String query="INSERT INTO db_empresa.proveedores(proveedor,nit,direccion,telefono) VALUES(?,?,?,?);";
             parametro=(PreparedStatement) c.conexionDB.prepareStatement(query);
             parametro.setString(1,getProveedor());
             parametro.setString(2,getNit());

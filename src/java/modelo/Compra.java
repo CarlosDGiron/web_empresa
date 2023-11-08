@@ -70,6 +70,33 @@ public class Compra {
         this.fechaingreso = fechaingreso;
     }
     //SELECT MAX(idCompra) FROM db_empresa.compras;
+    
+    public int[] listaIdCompra(){
+        int idetalle[];
+        c=new Conexion();
+        c.abrir_conexion();
+        try{
+            String query="SELECT COUNT(idCompra) AS id FROM db_empresa.compras;";
+            ResultSet count=c.conexionDB.createStatement().executeQuery(query);
+            query="SELECT idCompra AS id FROM db_empresa.compras;";
+            ResultSet consulta=c.conexionDB.createStatement().executeQuery(query);
+            count.next();
+            idetalle = new int[count.getInt("id")];
+            int i=0;
+            while(consulta.next()){
+                idetalle[i]= consulta.getInt("id");
+                i++;
+            }
+        c.cerrar_conexion();
+        return idetalle;
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+            c.cerrar_conexion();
+            return null;
+        }        
+    }
+    
+    
     public int maxIdCompra(){
          int x;
          c=new Conexion();
@@ -96,6 +123,39 @@ public class Compra {
             res=c.conexionDB.createStatement().executeQuery("SELECT no_orden_compra FROM db_empresa.compras WHERE idCompra="+String.valueOf(id)+";");
             res.next();
             x=res.getString("no_orden_compra");
+            c.cerrar_conexion();
+            return x;
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+            return null;
+        }
+    }
+    
+    public int idProvedorPorId(int id){
+         int x=0;
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("SELECT idProveedor FROM db_empresa.compras WHERE idCompra="+String.valueOf(id)+";");
+            res.next();
+            x=res.getInt("idProveedor");
+            c.cerrar_conexion();
+            return x;
+        }catch(SQLException ex){
+            System.out.println("Eror Id:"+ex.getMessage());
+            return x;
+        }
+    }
+      public String fechaOrdenPorId(int id){
+         String x;
+         c=new Conexion();
+         c.abrir_conexion();
+        try{
+            ResultSet res;
+            res=c.conexionDB.createStatement().executeQuery("SELECT fecha_orden FROM db_empresa.compras WHERE idCompra="+String.valueOf(id)+";");
+            res.next();
+            x=res.getString("fecha_orden");
             c.cerrar_conexion();
             return x;
         }catch(SQLException ex){

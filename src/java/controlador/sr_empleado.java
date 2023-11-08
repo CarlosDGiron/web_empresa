@@ -47,7 +47,7 @@ public class sr_empleado extends HttpServlet {
             }
             if(idUsuario!=0){
                 Usuario u=new Usuario();
-                if(u.tienePermisoId(idUsuario, 1)){
+                if(u.tienePermisoId(idUsuario, 1)||u.tienePermisoId(idUsuario, 7)){
                     //Permisos adecuados
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
                     Date date = new Date();  
@@ -76,6 +76,9 @@ public class sr_empleado extends HttpServlet {
                             }   break;
                         case "Puestos":
                             response.sendRedirect("Puestos.jsp");
+                            break;
+                        case "Ventas":
+                            response.sendRedirect("Ventas.jsp");
                             break;
                         default:
                             break;

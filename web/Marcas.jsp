@@ -47,9 +47,10 @@
             <label for="lbl_marca" >Marca:</label>
             <input type="text" name="txt_marca" id="txt_marca" class="form-control" required>
             <br>
-            <button name="btn_agregar" id="btn_agregar" value="Agregar" class="btn btn-primary">Agregar</button>
-            <button name="btn_modificar" id="btn_modificar" value="Modificar" class="btn btn-primary">Modificar</button>
-            <button name="btn_eliminar" id="btn_eliminar" value="Eliminar" class="btn btn-primary">Eliminar</button>
+            <button name="accion" id="accion" value="Agregar" class="btn btn-primary">Agregar</button>
+            <button name="accion" id="accion" value="Modificar" class="btn btn-primary">Modificar</button>
+            <button name="accion" id="accion" value="Eliminar" class="btn btn-primary">Eliminar</button>
+            <button name="accion" id="accion" value="Productos" class="btn btn-primary" formnovalidate>Ir a Productos</button>
             <br>
         </form>
         <table class="table table-striped">

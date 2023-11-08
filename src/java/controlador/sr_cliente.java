@@ -46,32 +46,38 @@ public class sr_cliente extends HttpServlet {
             }
             if(idUsuario!=0){
                 Usuario u=new Usuario();
-                if(u.tienePermisoId(idUsuario, 1)){
+                if(u.tienePermisoId(idUsuario, 1)||u.tienePermisoId(idUsuario, 6)){
                     //Permisos adecuados
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
                     Date date = new Date();  
-                    System.out.println(formatter.format(date));  
                     //Cliente(int id, String nombres, String apellidos,  String nit, boolean genero, String telefono, String correo_electronico, String fechaingreso)
                     Cliente e = new Cliente(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_nit"),request.getParameter("drop_genero").equals("M"),request.getParameter("txt_telefono"),request.getParameter("txt_correo_electronico"),formatter.format(date));
-                    if("Agregar".equals(request.getParameter("btn_agregar"))){
-                        if (e.agregar()==1){
-                        out.println("<h1>Ingreso exitoso.</h1>");
-                        }else{
-                        out.println("<h1>No se pudo ingresar el registro.</h1>");
-                        }
-                    }else if("Modificar".equals(request.getParameter("btn_modificar"))){
-                        if (e.modificar()==1){
-                        out.println("<h1>Registro modificado.</h1>");
-                        }else{
-                        out.println("<h1>No se pudo modificar el registro.</h1>");
-                        }                
-                    }else if("Eliminar".equals(request.getParameter("btn_eliminar"))){
-                        if (e.eliminar()==1){
-                        out.println("<h1>Registro eliminado.</h1>");
-                        }else{
-                        out.println("<h1>No se pudo eliminar el registro.</h1>");
-                        }               
-                    }            
+                    String accion=request.getParameter("accion");
+                    switch (accion) {
+                        case "Agregar":
+                            if (e.agregar()==1){
+                                out.println("<h1>Ingreso exitoso.</h1>");
+                            }else{
+                                out.println("<h1>No se pudo ingresar el registro.</h1>");
+                            }   break;
+                        case "Modificar":
+                            if (e.modificar()==1){
+                                out.println("<h1>Registro modificado.</h1>");
+                            }else{
+                                out.println("<h1>No se pudo modificar el registro.</h1>");
+                            }   break;
+                        case "Eliminar":
+                            if (e.eliminar()==1){
+                                out.println("<h1>Registro eliminado.</h1>");
+                            }else{
+                                out.println("<h1>No se pudo eliminar el registro.</h1>");
+                            }   break;
+                        case "Ventas":
+                            response.sendRedirect("Ventas.jsp");
+                            break;
+                        default:
+                            break;
+                    }
                     out.println("<a href ='Clientes.jsp'>Regresar</a>");
                     out.println("</body>");
                     out.println("</html>");

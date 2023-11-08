@@ -57,6 +57,8 @@
                                 out.println("<option value='" + i + "'>" + drop.get(i) + "</option>");
                                             }%>
                     </select>
+                </div><div class="col"><br>
+                    <button name="accion" id="accion" value="Proveedores" class="btn btn-primary btn-lg btn-block" formnovalidate>Ir a Proveedores</button>
                 </div><div class="col">
                     <label for="lbl_fecha_orden" >Fecha de la orden:</label>
                     <input type="date" name="txt_fecha_orden" id="txt_fecha_orden" class="form-control" required>
@@ -109,7 +111,7 @@
                     </div>
                 </div> 
             </div><br>
-            <button name="btn_agregar" id="btn_agregar" value="Agregar" class="btn btn-primary btn-lg btn-block">Agregar</button>
+            <button name="accion" id="accion" value="Agregar" class="btn btn-primary btn-lg btn-block">Agregar</button>
             <input name="noproductos" id="noproductos" type="hidden" value="0">
         </form>
     </div>

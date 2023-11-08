@@ -48,9 +48,17 @@
                 </nav>
             </form>
         </div>
-    <center><h1><br>Historial de Ventas<br></h1></center>
+    <center><h1><br>Historial de Ventas<br></h1></center><br>
     <div class="container"><br>
-        <form action="sr_ventas" method="post" class="form-group" >    
+        <form action="sr_ventas" method="post" class="form-group" >
+            <div class="row">
+                <div class="col">
+                    <button name="accion" id="accion" value="Clientes" class="btn btn-primary btn-block" formnovalidate>Ir a Clientes</button>
+                </div><div class="col">
+                    <button name="accion" id="accion" value="Empleados" class="btn btn-primary btn-block" formnovalidate>Ir a Empleados</button>
+                </div>
+            </div>
+            <br>
             <table class="table table-striped">
                 <thead>
                 <th>No. Factura</th>
@@ -117,8 +125,8 @@
                                                     out.println("<option value='" + jk + "' selected>" + drop.get(jk) + "</option>");
                                                 } else {
                                                     out.println("<option value='" + jk + "'>" + drop.get(jk) + "</option>");
-                                                                    }
-                                                                }%>
+                                                }
+                                            }%>
                                     </select>
                                 </div><div class="col">
                                     <label for="lbl_empleado" >Vendedor:</label>
@@ -130,8 +138,8 @@
                                                     out.println("<option value='" + jk + "' selected>" + drop.get(jk) + "</option>");
                                                 } else {
                                                     out.println("<option value='" + jk + "'>" + drop.get(jk) + "</option>");
-                                                                    }
-                                                                }%>
+                                                }
+                                            }%>
                                     </select>
                                 </div>
                             </div>
@@ -159,20 +167,20 @@
                                             out.println("</select></td>");
                                             out.println("<td><input type=\"number\" step=\"1\" min=\"1\" name=\"cantidad" + modelventadetalle.getValueAt(tt, 0) + "\" id=\"cantidad" + modelventadetalle.getValueAt(tt, 0) + "\" value=\"" + modelventadetalle.getValueAt(tt, 3) + "\"></td>");
                                             out.println("<td><input type=\"number\" step=\"0.01\" min=\"0.01\" name=\"precio" + modelventadetalle.getValueAt(tt, 0) + "\" id=\"precio" + modelventadetalle.getValueAt(tt, 0) + "\" value=\"" + modelventadetalle.getValueAt(tt, 4) + "\"></td>");
-                                                            out.println("</tr>");
-                                                        }%>
+                                            out.println("</tr>");
+                                        }%>
                                 </tbody>
                             </table>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-secondary" name="btn_eliminar" id="btn_eliminar" value="Eliminar">Eliminar orden de compra</button>
-                            <button class="btn btn-primary" name="btn_modificar" id="btn_modificar" value="Modificar">Modificar detalle</button>
+                            <button class="btn btn-secondary" name="accion" id="accion" value="Eliminar">Eliminar orden de compra</button>
+                            <button class="btn btn-primary" name="accion" id="accion" value="Modificar">Modificar detalle</button>
                         </div>
                     </div>
                 </div>
             </div>
             <%}
-                            }%>
+                }%>
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -202,7 +210,7 @@
     <%} else {%>
     <h1>No tienes permiso para ver esta página.</h1>
     <%}
-            } else {%>
+    } else {%>
     <h1>No tienes permiso para ver esta página.</h1>
     <%}%>
 </body>

@@ -73,7 +73,14 @@
                     <label for="lbl_fechafactura" >Fecha de la factura:</label>
                     <input type="date" name="txt_fechafactura" id="txt_fechafactura" class="form-control" required>
                 </div>
-            </div><br>
+            </div><br><div class="row">
+                <div class="col">
+                    <button name="accion" id="accion" value="Clientes" class="btn btn-primary btn-block" formnovalidate>Ir a Clientes</button>
+                </div><div class="col">
+                    <button name="accion" id="accion" value="Empleados" class="btn btn-primary btn-block" formnovalidate>Ir a Empleados</button>
+                </div>
+            </div>
+            <br>
             <div class="container" style="border: 2px solid grey;">
                 <h3>Detalle de venta</h3>   
                 <div class="row">
@@ -128,7 +135,7 @@
                     </div>
                 </div> 
             </div><br>
-            <button name="btn_agregar" id="btn_agregar" value="Agregar" class="btn btn-primary btn-lg btn-block">Agregar</button>
+            <button name="accion" id="accion" value="Agregar" class="btn btn-primary btn-lg btn-block">Agregar</button>
             <input name="noproductos" id="noproductos" type="hidden" value="0">
         </form>
     </div>

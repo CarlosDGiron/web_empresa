@@ -54,7 +54,7 @@ public class sr_reportes extends HttpServlet {
             }
             if(idUsuario!=0){
                 Usuario u=new Usuario();
-                if(u.tienePermisoId(idUsuario, 1)){
+                if(u.tienePermisoId(idUsuario, 1)||u.tienePermisoId(idUsuario, 12)){
                     //Permisos adecuados
                    
                     if("Productos".equals(request.getParameter("btn_productos"))){

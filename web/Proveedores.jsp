@@ -41,25 +41,36 @@
     <center><h1>Formulario Proveedores</h1></center>
     <div class="container">
         <form action="sr_proveedor" method="post" class="form-group" >
-            <label for="lbl_id" >ID:</label>
-            <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
-
-            <label for="lbl_proveedor" >Proveedor:</label>
-            <input type="text" name="txt_proveedor" id="txt_proveedor" class="form-control" placeholder="Ejemplo: Nombre" required>  
-
-            <label for="lbl_nit" >NIT:</label>
-            <input type="text" name="txt_nit" id="txt_nit" class="form-control" placeholder="Ejemplo: 1234567890" required>
-
-            <label for="lbl_direccion" >Direccion:</label>
-            <input type="text" name="txt_direccion" id="txt_direccion" class="form-control"  placeholder="# Calle  Avenida Zona Ciudad Departamento"required>
-
-            <label for="lbl_telefono" >Telefono:</label>
-            <input type="text" name="txt_telefono" id="txt_telefono" class="form-control" placeholder="Ejemplo: 12345678" required>
-
+            <div class="row">
+                <div class="col">
+                    <label for="lbl_id" >ID:</label>
+                    <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
+                </div><div class="col">
+                    <label for="lbl_proveedor" >Proveedor:</label>
+                    <input type="text" name="txt_proveedor" id="txt_proveedor" class="form-control" placeholder="Ejemplo: Nombre" required>  
+                </div><div class="col">
+                    <label for="lbl_nit" >NIT:</label>
+                    <input type="text" name="txt_nit" id="txt_nit" class="form-control" placeholder="Ejemplo: 1234567890" required>
+                </div><div class="col">
+                    <label for="lbl_direccion" >Direccion:</label>
+                    <input type="text" name="txt_direccion" id="txt_direccion" class="form-control"  placeholder="# Calle  Avenida Zona Ciudad Departamento"required>
+                </div><div class="col">
+                    <label for="lbl_telefono" >Telefono:</label>
+                    <input type="text" name="txt_telefono" id="txt_telefono" class="form-control" placeholder="Ejemplo: 12345678" required>
+                </div>
+            </div>
             <br>
-            <button name="btn_agregar" id="btn_agregar" value="Agregar" class="btn btn-primary">Agregar</button>
-            <button name="btn_modificar" id="btn_modificar" value="Modificar" class="btn btn-primary">Modificar</button>
-            <button name="btn_eliminar" id="btn_eliminar" value="Eliminar" class="btn btn-primary">Eliminar</button>
+            <div class="row">
+                <div class="col">
+                    <button name="accion" id="accion" value="Agregar" class="btn btn-primary btn-block">Agregar</button>
+                </div><div class="col">
+                    <button name="accion" id="accion" value="Modificar" class="btn btn-primary btn-block">Modificar</button>
+                </div><div class="col">
+                    <button name="accion" id="accion" value="Eliminar" class="btn btn-primary btn-block">Eliminar</button>
+                </div><div class="col">
+                    <button name="accion" id="accion" value="Compras" class="btn btn-primary btn-block" formnovalidate>Ir a Compras</button>
+                </div>
+            </div>
             <br>
         </form>
         <table class="table table-striped">
@@ -109,7 +120,7 @@
     <%} else {%>
     <h1>No tienes permiso para ver esta página.</h1>
     <%}
-        } else {%>
+    } else {%>
     <h1>No tienes permiso para ver esta página.</h1>
     <%}%>
 </body>

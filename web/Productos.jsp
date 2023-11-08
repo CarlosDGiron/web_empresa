@@ -43,7 +43,7 @@
     <div class="container">
         <form action="sr_producto" method="post" class="form-group" >
             <label for="lbl_id" >ID:</label>
-            <input type="hidden" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
+            <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
 
             <label for="lbl_producto" >Producto:</label>
             <input type="text" name="txt_producto" id="txt_producto" class="form-control" placeholder="Ejemplo: Nombre" required>  
@@ -67,18 +67,19 @@
             <input type="text" name="txt_imagen" id="txt_imagen" class="form-control" placeholder="https://wwww.imgurl.com/image.jpg" required>
 
             <label for="lbl_precio_costo" >Precio costo:</label>
-            <input type="number" name="txt_precio_costo" id="txt_precio_costo" class="form-control" placeholder="Ejemplo: 12345678" required>
+            <input type="number" name="txt_precio_costo" id="txt_precio_costo" class="form-control" value="1" placeholder="Ejemplo: 12345678" required>
 
             <label for="lbl_precio_venta" >Precio venta:</label>
-            <input type="number" name="txt_precio_venta" id="txt_precio_venta" class="form-control" placeholder="Ejemplo: 12345678" required>
+            <input type="number" name="txt_precio_venta" id="txt_precio_venta" class="form-control" value="1" placeholder="Ejemplo: 12345678" required>
 
             <label for="lbl_existencia" >Existencia:</label>
-            <input type="number" name="txt_existencia" id="txt_existencia" class="form-control" placeholder="Ejemplo: 12345678" required>
+            <input type="number" name="txt_existencia" id="txt_existencia" class="form-control" value="1" placeholder="Ejemplo: 12345678" required>
 
             <br>
-            <button name="btn_agregar" id="btn_agregar" value="Agregar" class="btn btn-primary">Agregar</button>
-            <button name="btn_modificar" id="btn_modificar" value="Modificar" class="btn btn-primary">Modificar</button>
-            <button name="btn_eliminar" id="btn_eliminar" value="Eliminar" class="btn btn-primary">Eliminar</button>
+            <button name="accion" id="accion" value="Agregar" class="btn btn-primary">Agregar</button>
+            <button name="accion" id="accion" value="Modificar" class="btn btn-primary">Modificar</button>
+            <button name="accion" id="accion" value="Eliminar" class="btn btn-primary">Eliminar</button>
+            <button name="accion" id="accion" value="Marcas" class="btn btn-primary" formnovalidate>Ir a Marcas</button>
             <br>
         </form>
         <table class="table table-striped">

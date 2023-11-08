@@ -48,7 +48,7 @@ public class sr_compras extends HttpServlet {
             }
             if(idUsuario!=0){
                 Usuario u=new Usuario();
-                if(u.tienePermisoId(idUsuario, 1)){
+                if(u.tienePermisoId(idUsuario, 1)||u.tienePermisoId(idUsuario, 9)||u.tienePermisoId(idUsuario, 10)){
                     //Permisos adecuados
                     int cantidad,idproducto,idcompra;
                     double precio;
@@ -56,66 +56,72 @@ public class sr_compras extends HttpServlet {
                     Date date = new Date();  
                     Compra e ;
                     Compra_detalle cd =new Compra_detalle();
-                    if("Agregar".equals(request.getParameter("btn_agregar"))){
-                         e = new Compra(0,Integer.parseInt(request.getParameter("txt_no_orden")),Integer.parseInt(request.getParameter("drop_proveedor")),request.getParameter("txt_fecha_orden"),formatter.format(date));
-                        if (e.agregar()==1){
-                            int contadordeinserts=0;
-                            idcompra=e.getIdCompra();
-                            for (int i=0;i<Integer.parseInt(request.getParameter("noproductos"));i++){
-                                idproducto=Integer.parseInt(request.getParameter("idProducto"+i));
-                                cantidad=Integer.parseInt(request.getParameter("cantidad"+i));
-                                precio=Double.parseDouble(request.getParameter("precio"+i));
-                                cd=new Compra_detalle(0,idcompra,idproducto,cantidad,precio);
-                                if(cd.agregar()>0){
-                                    contadordeinserts++;
+                    String accion=request.getParameter("accion");
+                    switch (accion) {
+                        case "Agregar":
+                            e = new Compra(0,Integer.parseInt(request.getParameter("txt_no_orden")),Integer.parseInt(request.getParameter("drop_proveedor")),request.getParameter("txt_fecha_orden"),formatter.format(date));
+                            if (e.agregar()==1){
+                                int contadordeinserts=0;
+                                idcompra=e.getIdCompra();
+                                for (int i=0;i<Integer.parseInt(request.getParameter("noproductos"));i++){
+                                    idproducto=Integer.parseInt(request.getParameter("idProducto"+i));
+                                    cantidad=Integer.parseInt(request.getParameter("cantidad"+i));
+                                    precio=Double.parseDouble(request.getParameter("precio"+i));
+                                    cd=new Compra_detalle(0,idcompra,idproducto,cantidad,precio);
+                                    if(cd.agregar()>0){
+                                        contadordeinserts++;
+                                    }
                                 }
-                            }
-                            out.println("<h1>Ingreso exitoso</h1>");
-                            out.println("<p>Se agrego la compra con un total de "+contadordeinserts+" productos.</p>");
-                        }else{
-                            out.println("<h1>No se pudo ingresar el registro.</h1>");
-                        }
-                        out.println("<a href ='Compras.jsp'>Regresar</a>");
-                        out.println("</body>");
-                        out.println("</html>");
-                    }else if("Modificar".equals(request.getParameter("btn_modificar"))){
-                        idcompra=Integer.parseInt(request.getParameter("idCompra"));
-                        //int idCompra, int no_orden_compra, int idProveedor, String fecha_orden, String fechaingreso
-                        e=new Compra(idcompra,Integer.parseInt(request.getParameter("txt_no_orden"+String.valueOf(idcompra))),Integer.parseInt(request.getParameter("drop_proveedor"+String.valueOf(idcompra))),request.getParameter("txt_fecha_orden"+String.valueOf(idcompra)),formatter.format(date));
-                        if (e.modificar()==1){
-                            int contadordeinserts=0; 
-                            for (int i:cd.idDetallePorIdCompra(idcompra)){
-                                idproducto=Integer.parseInt(request.getParameter("drop_producto"+String.valueOf(i)));
-                                cantidad=Integer.parseInt(request.getParameter("cantidad"+String.valueOf(i)));
-                                precio=Double.parseDouble(request.getParameter("precio"+String.valueOf(i)));
-                                cd=new Compra_detalle(i,idcompra,idproducto,cantidad,precio);
-                                if(cd.modificar()>0){
-                                    contadordeinserts++;
+                                out.println("<h1>Ingreso exitoso</h1>");
+                                out.println("<p>Se agrego la compra con un total de "+contadordeinserts+" productos.</p>");
+                            }else{
+                                out.println("<h1>No se pudo ingresar el registro.</h1>");
+                            }   out.println("<a href ='Compras.jsp'>Regresar</a>");
+                            out.println("</body>");
+                            out.println("</html>");
+                            break;
+                        case "Modificar":
+                            idcompra=Integer.parseInt(request.getParameter("idCompra"));
+                            //int idCompra, int no_orden_compra, int idProveedor, String fecha_orden, String fechaingreso
+                            e=new Compra(idcompra,Integer.parseInt(request.getParameter("txt_no_orden"+String.valueOf(idcompra))),Integer.parseInt(request.getParameter("drop_proveedor"+String.valueOf(idcompra))),request.getParameter("txt_fecha_orden"+String.valueOf(idcompra)),formatter.format(date));
+                            if (e.modificar()==1){
+                                int contadordeinserts=0;
+                                for (int i:cd.idDetallePorIdCompra(idcompra)){
+                                    idproducto=Integer.parseInt(request.getParameter("drop_producto"+String.valueOf(i)));
+                                    cantidad=Integer.parseInt(request.getParameter("cantidad"+String.valueOf(i)));
+                                    precio=Double.parseDouble(request.getParameter("precio"+String.valueOf(i)));
+                                    cd=new Compra_detalle(i,idcompra,idproducto,cantidad,precio);
+                                    if(cd.modificar()>0){
+                                        contadordeinserts++;
+                                    }
                                 }
-                            }
-                            out.println("<h1>Registro modificado.</h1>");
-                        }else{
-                            out.println("<h1>No se pudo modificar el registro.</h1>");
-                        }                        
-                        out.println("<a href ='Compras_Detalles.jsp'>Regresar</a>");
-                        out.println("</body>");
-                        out.println("</html>");
-                    }else if("Eliminar".equals(request.getParameter("btn_eliminar"))){
-                        e = new Compra();
-                        e.setIdCompra(Integer.parseInt(request.getParameter("idCompra")));
-                        cd.setIdCompra(Integer.parseInt(request.getParameter("idCompra")));
-                        if (cd.eliminar()){
-                            if(e.eliminar()){
-                                out.println("<h1>Registro eliminado.</h1>");
+                                out.println("<h1>Registro modificado.</h1>");
+                            }else{
+                                out.println("<h1>No se pudo modificar el registro.</h1>");
+                            }   out.println("<a href ='Compras_Detalles.jsp'>Regresar</a>");
+                            out.println("</body>");
+                            out.println("</html>");
+                            break;
+                        case "Eliminar":
+                            e = new Compra();
+                            e.setIdCompra(Integer.parseInt(request.getParameter("idCompra")));
+                            cd.setIdCompra(Integer.parseInt(request.getParameter("idCompra")));
+                            if (cd.eliminar()){
+                                if(e.eliminar()){
+                                    out.println("<h1>Registro eliminado.</h1>");
+                                }else{
+                                    out.println("<h1>No se pudo eliminar el registro.</h1>");
+                                }
                             }else{
                                 out.println("<h1>No se pudo eliminar el registro.</h1>");
-                            }
-                        }else{
-                            out.println("<h1>No se pudo eliminar el registro.</h1>");
-                        }
-                    out.println("<a href ='Compras_Detalles.jsp'>Regresar</a>");
-                    out.println("</body>");
-                    out.println("</html>");
+                            }   out.println("<a href ='Compras_Detalles.jsp'>Regresar</a>");
+                            out.println("</body>");
+                            out.println("</html>");
+                            break;
+                        case "Proveedores":
+                            response.sendRedirect("Proveedores.jsp");
+                        default:
+                            break;
                     }
                 }
             }else{

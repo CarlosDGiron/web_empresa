@@ -38,7 +38,7 @@ public class sr_puesto extends HttpServlet {
             }
             if(idUsuario!=0){
                 Usuario u=new Usuario();
-                if(u.tienePermisoId(idUsuario, 1)){
+                if(u.tienePermisoId(idUsuario, 1)||u.tienePermisoId(idUsuario, 8)){
                     //Permisos adecuados 
                     Puesto p = new Puesto(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_puesto"));
                     String accion=request.getParameter("accion");
